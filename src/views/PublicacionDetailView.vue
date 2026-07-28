@@ -1,12 +1,12 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { noticias } from '../data/noticias'
+import { publicaciones } from '../data/publicaciones'
 
 const route = useRoute()
 const router = useRouter()
 const slug = computed(() => route.params.slug)
-const noticia = computed(() => noticias.find(n => n.slug === slug.value))
+const publicacion = computed(() => publicaciones.find(n => n.slug === slug.value))
 
 const copied = ref(false)
 const currentUrl = computed(() => window.location.href)
@@ -17,7 +17,7 @@ const copyUrl = async () => {
     setTimeout(() => copied.value = false, 2000)
 }
 
-watch(noticia, (newVal) => {
+watch(publicacion, (newVal) => {
     if (newVal) {
         document.title = `${newVal.title} — ER Abogados`
     }
@@ -25,7 +25,7 @@ watch(noticia, (newVal) => {
 
 watch(slug, () => {
     window.scrollTo({ top: 0, behavior: 'instant' })
-    if (slug.value && !noticia.value) router.push('/404')
+    if (slug.value && !publicacion.value) router.push('/404')
 }, { immediate: true })
 </script>
 
@@ -35,7 +35,7 @@ watch(slug, () => {
         <!-- Hero -->
         <header class="relative min-h-auto flex flex-col justify-center overflow-hidden">
             <div class="absolute inset-0">
-                <img :src="noticia.image" :alt="noticia.title" loading="eager"
+                <img :src="publicacion.image" :alt="publicacion.title" loading="eager"
                     class="w-full h-full object-cover scale-105 transition-transform duration-[8000ms] ease-out"
                     style="transform-origin: center center;">
                 <div
@@ -47,20 +47,20 @@ watch(slug, () => {
                 <div class="flex items-center gap-4 mb-8">
                     <span
                         class="font-label text-[9px] font-bold tracking-[0.4em] uppercase text-white bg-secondary px-3 py-1.5">
-                        {{ noticia.category }}
+                        {{ publicacion.category }}
                     </span>
-                    <span class="text-white text-[10px] font-label tracking-widest uppercase">{{ noticia.date }}</span>
+                    <span class="text-white text-[10px] font-label tracking-widest uppercase">{{ publicacion.date }}</span>
                 </div>
 
                 <h1
                     class="font-headline text-4xl sm:text-6xl lg:text-7xl text-white font-bold leading-[1.05] tracking-tight max-w-5xl mb-10">
-                    {{ noticia.title }}
+                    {{ publicacion.title }}
                 </h1>
 
                 <div class="flex items-center gap-6 pb-10 border-b border-white/30">
                     <div class="flex items-center gap-3">
                         <div class="w-12 h-12 rounded-full overflow-hidden ring-1 ring-white/60">
-                            <img v-if="noticia.authorImage" :src="noticia.authorImage" :alt="noticia.author"
+                            <img v-if="publicacion.authorImage" :src="publicacion.authorImage" :alt="publicacion.author"
                                 class="w-full h-full object-cover">
                             <div v-else class="w-full h-full bg-secondary/20 flex items-center justify-center">
                                 <span class="material-symbols-outlined text-white/40">person</span>
@@ -68,15 +68,15 @@ watch(slug, () => {
                         </div>
                         <div class="flex flex-col">
                             <span class="font-label text-[12px] font-bold tracking-widest uppercase text-white">{{
-                                noticia.author }}</span>
-                            <span class="font-label text-[11px] text-secondary tracking-wider">{{ noticia.authorRole
+                                publicacion.author }}</span>
+                            <span class="font-label text-[11px] text-secondary tracking-wider">{{ publicacion.authorRole
                                 }}</span>
                         </div>
                     </div>
                     <div class="w-px h-6 bg-white/40"></div>
                     <p style="font-size: 9px;" class="font-label text-white/80 tracking-widest uppercase">
                         <span class="font-bold text-secondary">{{
-                            noticia.readingTime
+                            publicacion.readingTime
                         }}</span> de lectura
                     </p>
                 </div>
@@ -89,20 +89,20 @@ watch(slug, () => {
 
                 <p
                     class="font-headline text-2xl text-primary/80 font-normal leading-relaxed mb-10 pb-10 border-b border-primary/8 italic">
-                    {{ noticia.excerpt }}
+                    {{ publicacion.excerpt }}
                 </p>
 
-                <img :src="noticia.image" :alt="noticia.title" loading="eager"
+                <img :src="publicacion.image" :alt="publicacion.title" loading="eager"
                     class="w-full h-80 object-cover mb-10">
 
-                <div class="prose-custom" v-html="noticia.content"></div>
+                <div class="prose-custom" v-html="publicacion.content"></div>
 
                 <div class="mt-14 pt-8 border-t border-primary/8 flex items-center gap-3">
                     <span
                         class="font-label text-[9px] uppercase tracking-widest text-primary/30 font-bold">Categoría</span>
                     <span
                         class="font-label text-[9px] uppercase tracking-widest text-secondary font-bold border border-secondary/30 px-3 py-1">
-                        {{ noticia.category }}
+                        {{ publicacion.category }}
                     </span>
                 </div>
 
@@ -111,7 +111,7 @@ watch(slug, () => {
                     class="mt-12 pt-12 border-t border-primary/8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-10">
                     <div class="flex items-center gap-5">
                         <div class="w-14 h-14 rounded-full overflow-hidden ring-2 ring-primary/5 shrink-0">
-                            <img v-if="noticia.authorImage" :src="noticia.authorImage" :alt="noticia.author"
+                            <img v-if="publicacion.authorImage" :src="publicacion.authorImage" :alt="publicacion.author"
                                 class="w-full h-full object-cover">
                             <div v-else class="w-full h-full bg-primary/10 flex items-center justify-center">
                                 <span class="material-symbols-outlined text-primary/30">person</span>
@@ -122,8 +122,8 @@ watch(slug, () => {
                                 class="block font-label text-[8px] uppercase tracking-widest text-primary/30 mb-1">Escrito
                                 por</span>
                             <span class="block font-headline text-lg text-primary font-bold leading-none">{{
-                                noticia.author }}</span>
-                            <span class="block font-label text-[10px] text-secondary mt-1">{{ noticia.authorRole
+                                publicacion.author }}</span>
+                            <span class="block font-label text-[10px] text-secondary mt-1">{{ publicacion.authorRole
                                 }}</span>
                         </div>
                     </div>
@@ -148,7 +148,7 @@ watch(slug, () => {
                                         d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                                 </svg>
                             </a>
-                            <a :href="`https://t.me/share/url?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(noticia.title)}`"
+                            <a :href="`https://t.me/share/url?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(publicacion.title)}`"
                                 target="_blank"
                                 class="w-9 h-9 border border-primary/10 flex items-center justify-center text-primary/40 hover:bg-[#229ED9] hover:text-white hover:border-[#229ED9] transition-all duration-300 no-underline">
                                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -156,7 +156,7 @@ watch(slug, () => {
                                         d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
                                 </svg>
                             </a>
-                            <a :href="`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(noticia.title)}`"
+                            <a :href="`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(publicacion.title)}`"
                                 target="_blank"
                                 class="w-9 h-9 border border-primary/10 flex items-center justify-center text-primary/40 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 no-underline">
                                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -164,7 +164,7 @@ watch(slug, () => {
                                         d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                                 </svg>
                             </a>
-                            <a :href="`https://wa.me/?text=${encodeURIComponent(noticia.title + ' ' + currentUrl)}`"
+                            <a :href="`https://wa.me/?text=${encodeURIComponent(publicacion.title + ' ' + currentUrl)}`"
                                 target="_blank"
                                 class="w-9 h-9 border border-primary/10 flex items-center justify-center text-primary/40 hover:bg-[#25D366] hover:text-white hover:border-[#25D366] transition-all duration-300 no-underline">
                                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -190,14 +190,14 @@ watch(slug, () => {
                 <div class="flex items-baseline justify-between mb-12 pb-4 border-b border-primary/8">
                     <h2 class="font-headline text-2xl text-primary font-bold">Análisis <em
                             class="text-secondary not-italic">Relacionados</em></h2>
-                    <router-link to="/noticias"
+                    <router-link to="/publicaciones"
                         class="text-[9px] font-label font-bold tracking-widest uppercase text-primary/30 hover:text-secondary transition-colors no-underline">Ver
                         todas</router-link>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-primary/8">
-                    <div v-for="rel in noticias.filter(n => n.slug !== noticia.slug).slice(0, 3)" :key="rel.slug"
+                    <div v-for="rel in publicaciones.filter(n => n.slug !== publicacion.slug).slice(0, 3)" :key="rel.slug"
                         class="group">
-                        <router-link :to="`/noticias/${rel.slug}`"
+                        <router-link :to="`/publicaciones/${rel.slug}`"
                             class="no-underline flex flex-col gap-5 p-8 hover:bg-white transition-colors duration-300">
                             <div class="aspect-[16/9] overflow-hidden">
                                 <img :src="rel.image" :alt="rel.title"

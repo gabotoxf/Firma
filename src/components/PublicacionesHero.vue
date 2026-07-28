@@ -5,16 +5,18 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import noticiasData from '../data/noticias.js'
+import publicacionesData from '../data/publicaciones.js'
 
-const noticias = ref([])
+const publicaciones = ref([])
 const loading = ref(true)
+
+const truncate = (text, max = 80) => text && text.length > max ? text.slice(0, max).trimEnd() + '…' : text
 
 const modules = [Autoplay, Navigation, Pagination]
 
 onMounted(() => {
   setTimeout(() => {
-    noticias.value = noticiasData.filter(n => n.featured)
+    publicaciones.value = publicacionesData.filter(n => n.featured)
     loading.value = false
   }, 300)
 })
@@ -33,7 +35,7 @@ onMounted(() => {
 
     <!-- Slider -->
     <Swiper
-      v-else-if="noticias.length > 0"
+      v-else-if="publicaciones.length > 0"
       :modules="modules"
       :autoplay="{ delay: 6000, disableOnInteraction: false }"
       :pagination="{ clickable: true }"
@@ -42,12 +44,12 @@ onMounted(() => {
       :fadeEffect="{ crossFade: true }"
       class="h-full"
     >
-      <SwiperSlide v-for="(noticia, i) in noticias" :key="noticia.slug">
+      <SwiperSlide v-for="(publicacion, i) in publicaciones" :key="publicacion.slug">
         <div class="relative h-screen w-full">
           <!-- Imagen de fondo -->
           <div
             class="absolute inset-0 bg-cover bg-center transition-transform duration-[2000ms]"
-            :style="{ backgroundImage: `url(${noticia.image})` }"
+            :style="{ backgroundImage: `url(${publicacion.image})` }"
           ></div>
           <!-- Overlay gradiente de marca -->
           <div class="absolute inset-0" style="background: linear-gradient(45deg, rgba(37,52,57,0.92) 0%, rgba(58,80,89,0.78) 50%, rgba(37,52,57,0.45) 100%);"></div>
@@ -59,31 +61,31 @@ onMounted(() => {
                 <span
                   class="inline-block bg-secondary text-white text-[9px] font-bold uppercase tracking-[0.3em] px-4 py-1.5 mb-5"
                 >
-                  {{ noticia.category }}
+                  {{ publicacion.category }}
                 </span>
 
                 <p class="text-white/60 text-sm font-light mb-4 flex items-center gap-2">
                   <span class="material-symbols-outlined text-[15px]">calendar_today</span>
-                  {{ noticia.date }}
+                  {{ publicacion.date }}
                 </p>
 
                 <h1
-                  class="font-headline text-white text-3xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6"
+                  class="font-headline text-white text-3xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6 line-clamp-3"
                   style="font-family: 'Noto Serif', serif;"
                 >
-                  {{ noticia.title }}
+                  {{ truncate(publicacion.title, 80) }}
                 </h1>
 
                 <p class="text-white/70 text-lg font-light leading-relaxed border-l-2 border-secondary pl-5 mb-10 max-w-xl">
-                  {{ noticia.excerpt }}
+                  {{ publicacion.excerpt }}
                 </p>
 
                 <router-link
-                  :to="`/noticias/${noticia.slug}`"
+                  :to="`/publicaciones/${publicacion.slug}`"
                   class="group inline-flex items-center gap-4 text-secondary hover:text-white transition-colors duration-300 no-underline"
                 >
                   <span class="font-label text-[10px] font-bold tracking-[0.2em] uppercase" style="font-family: 'Manrope', sans-serif;">
-                    Explorar noticia
+                    Explorar publicación
                   </span>
                   <span
                     class="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center group-hover:bg-secondary/40 transition-colors duration-300"
@@ -98,7 +100,7 @@ onMounted(() => {
       </SwiperSlide>
     </Swiper>
 
-    <!-- Fallback si no hay noticias -->
+    <!-- Fallback si no hay publicaciones -->
     <div v-else class="absolute inset-0 flex items-center justify-center bg-primary">
       <div class="text-center text-white px-6">
         <h1 class="font-headline text-4xl md:text-6xl font-bold mb-4" style="font-family: 'Noto Serif', serif;">

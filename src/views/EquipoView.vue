@@ -11,7 +11,7 @@ const partners = socios
             class="relative min-h-[40vh] sm:min-h-[50vh] flex items-start pt-28 sm:pt-18 pb-16 sm:pb-20 px-6 sm:px-12 lg:px-24 overflow-hidden bg-primary">
             <!-- Fondo con Imagen y Gradientes -->
             <div class="absolute inset-0 opacity-20">
-                <img src="/img/noticias/noticia5.jpg" alt="ER Abogados Background"
+                <img src="/img/publicaciones/5.webp" alt="ER Abogados Background"
                     class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-b from-primary via-transparent to-primary"></div>
             </div>

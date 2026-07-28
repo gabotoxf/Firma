@@ -1,14 +1,14 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { noticias } from '../data/noticias'
+import { publicaciones } from '../data/publicaciones'
 
 const paginaActual = ref(1)
 const porPagina = 6
-const total = computed(() => noticias.length)
+const total = computed(() => publicaciones.length)
 const totalPaginas = computed(() => Math.ceil(total.value / porPagina))
-const noticiasPagina = computed(() => {
+const publicacionesPagina = computed(() => {
   const inicio = (paginaActual.value - 1) * porPagina
-  return noticias.slice(inicio, inicio + porPagina)
+  return publicaciones.slice(inicio, inicio + porPagina)
 })
 
 const irAPagina = (page) => {
@@ -26,7 +26,7 @@ const irAPagina = (page) => {
       <!-- Fondo con Imagen y Gradientes -->
       <div class="absolute inset-0 z-0">
         <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop"
-          alt="Noticias y Actualidad" class="w-full h-full object-cover opacity-30 grayscale">
+          alt="Publicaciones y Actualidad" class="w-full h-full object-cover opacity-30 grayscale">
         <!-- Gradiente de profundidad -->
         <div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/85 to-transparent"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent"></div>
@@ -37,11 +37,11 @@ const irAPagina = (page) => {
         <div class="max-w-3xl flex flex-col gap-4 sm:gap-6">
           <p class="font-label text-[9px] sm:text-[10px] tracking-[0.5em] uppercase text-secondary font-bold opacity-0 animate-slide-up"
             :style="{ animationDelay: '200ms', animationFillMode: 'forwards' }">
-            Noticias y Actualidad</p>
+            Publicaciones y Actualidad</p>
           <h1
             class="font-headline text-3xl sm:text-7xl lg:text-8xl text-white font-light leading-[1.1] tracking-tight opacity-0 animate-slide-up"
             :style="{ animationDelay: '400ms', animationFillMode: 'forwards' }">
-            Noticias
+            Publicaciones
             <em class="text-secondary italic not-italic font-medium">estratégicas</em>
           </h1>
           <p class="text-sm sm:text-lg text-white/60 font-light max-w-xl leading-relaxed border-l border-secondary/30 pl-6 sm:pl-8 mt-2 opacity-0 animate-slide-up"
@@ -61,13 +61,13 @@ const irAPagina = (page) => {
       </div>
     </header>
 
-    <!-- Grid de Noticias — Editorial -->
+    <!-- Grid de Publicaciones — Editorial -->
     <section class="py-24 px-8 lg:px-24">
       <div class="max-w-[1400px] mx-auto">
 
         <!-- Encabezado de sección -->
         <div class="flex items-baseline justify-between mb-12 pb-4 border-b border-primary/10">
-          <span class="text-[10px] font-label font-bold tracking-[0.35em] uppercase text-primary">Noticias</span>
+          <span class="text-[10px] font-label font-bold tracking-[0.35em] uppercase text-primary">Publicaciones</span>
           <span class="text-[10px] font-label tracking-[0.2em] uppercase text-primary font-bold">
             {{ total.toString().padStart(2, '0') }} artículos
           </span>
@@ -75,18 +75,18 @@ const irAPagina = (page) => {
 
         <!-- Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y divide-primary/10 md:divide-y-0">
-          <article v-for="(noticia, index) in noticiasPagina" :key="noticia.slug"
+          <article v-for="(publicacion, index) in publicacionesPagina" :key="publicacion.slug"
             class="group p-8 border-primary/10 hover:bg-primary/[0.02] transition-colors duration-300" :class="{
               'lg:border-r': index % 2 === 0,
-              'lg:border-b': index < noticias.length - 2,
-              'border-b': index < noticias.length - 1
+              'lg:border-b': index < publicaciones.length - 2,
+              'border-b': index < publicaciones.length - 1
             }">
-            <router-link :to="`/noticias/${noticia.slug}`" class="no-underline block">
+            <router-link :to="`/publicaciones/${publicacion.slug}`" class="no-underline block">
 
               <!-- Imagen con índice -->
               <div class="relative mb-6 overflow-hidden">
                 <div class="aspect-[16/9] overflow-hidden">
-                  <img :src="noticia.image" :alt="noticia.title"
+                  <img :src="publicacion.image" :alt="publicacion.title"
                     class="w-full h-full object-cover transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] group-hover:contrast-105">
                 </div>
                 <!-- Número de índice -->
@@ -100,20 +100,20 @@ const irAPagina = (page) => {
               <!-- Metadata -->
               <div class="flex items-center gap-0 mb-4">
                 <span class="text-[9px] font-label uppercase tracking-[0.35em] text-primary font-medium">{{
-                  noticia.category }}</span>
+                  publicacion.category }}</span>
                 <div class="w-[3px] h-[3px] rounded-full bg-primary/20 mx-2.5 flex-shrink-0"></div>
-                <span class="text-[9px] font-label uppercase tracking-[0.2em] text-primary/35">{{ noticia.date }}</span>
+                <span class="text-[9px] font-label uppercase tracking-[0.2em] text-primary/35">{{ publicacion.date }}</span>
               </div>
 
               <!-- Título -->
               <h3
                 class="font-headline text-xl leading-snug text-primary font-medium mb-3 tracking-[-0.01em] transition-colors duration-300 group-hover:text-primary/50">
-                {{ noticia.title }}
+                {{ publicacion.title }}
               </h3>
 
               <!-- Extracto -->
               <p class="text-[13px] text-primary/45 font-light leading-relaxed line-clamp-2 mb-5">
-                {{ noticia.excerpt }}
+                {{ publicacion.excerpt }}
               </p>
 
               <!-- CTA con línea animada -->

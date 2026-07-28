@@ -3,17 +3,17 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import services from '../data/services.js';
 import { socios } from '../data/socios.js';
-import { noticias } from '../data/noticias.js';
+import { publicaciones } from '../data/publicaciones.js';
 
 const router = useRouter();
 const partners = ref([])
-const noticiasList = ref([])
+const publicacionesList = ref([])
 const isScrolled = ref(false);
 const isMenuOpen = ref(false);
 const activeMegaMenu = ref(null);
 const isMobileServicesOpen = ref(false);
 const isMobileTeamOpen = ref(false);
-const isMobileNoticiasOpen = ref(false);
+const isMobilePublicacionesOpen = ref(false);
 const isLangOpen = ref(false);
 const lang = ref('es');
 let megaMenuTimeout = null;
@@ -67,7 +67,7 @@ const setLang = (l) => {
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   partners.value = socios.slice(0, 2)
-  noticiasList.value = noticias.slice(0, 3)
+  publicacionesList.value = publicaciones.slice(0, 3)
 })
 
 onUnmounted(() => {
@@ -205,28 +205,28 @@ onUnmounted(() => {
           </Transition>
         </div>
 
-        <!-- Noticias -->
-        <div @mouseenter="openMegaMenu('noticias')" @mouseleave="closeMegaMenu" class="h-full flex items-center">
-          <router-link to="/noticias" class="nav-link flex items-center gap-1" active-class="active"
-            :class="{ active: activeMegaMenu === 'noticias' }">
-            Noticias
+        <!-- Publicaciones -->
+        <div @mouseenter="openMegaMenu('publicaciones')" @mouseleave="closeMegaMenu" class="h-full flex items-center">
+          <router-link to="/publicaciones" class="nav-link flex items-center gap-1" active-class="active"
+            :class="{ active: activeMegaMenu === 'publicaciones' }">
+            Publicaciones
             <span class="material-symbols-outlined text-[13px] transition-transform duration-300"
-              :class="{ 'rotate-180': activeMegaMenu === 'noticias' }">expand_more</span>
+              :class="{ 'rotate-180': activeMegaMenu === 'publicaciones' }">expand_more</span>
           </router-link>
 
           <Transition name="mega">
-            <div v-if="activeMegaMenu === 'noticias'" class="mega-menu" @mouseenter="openMegaMenu('noticias')"
+            <div v-if="activeMegaMenu === 'publicaciones'" class="mega-menu" @mouseenter="openMegaMenu('publicaciones')"
               @mouseleave="closeMegaMenu">
               <div class="absolute top-0 left-0 w-full h-[2px] bg-secondary"></div>
               <div class="mega-menu-container">
                 <div class="grid grid-cols-4 gap-12">
                   <div class="col-span-1 border-r border-primary/5 pr-12">
                     <p class="font-label text-[9px] tracking-[0.3em] uppercase text-secondary font-semibold mb-2">
-                      Noticias</p>
+                      Publicaciones</p>
                     <h3 class="font-headline text-2xl text-primary font-bold mb-4">Actualidad</h3>
-                    <p class="text-xs text-primary/50 font-light leading-relaxed mb-6">Análisis y noticias estratégicas
+                    <p class="text-xs text-primary/50 font-light leading-relaxed mb-6">Análisis y publicaciones estratégicas
                       sobre el panorama legal.</p>
-                    <router-link to="/noticias"
+                    <router-link to="/publicaciones"
                       class="text-primary font-label text-[9px] font-bold tracking-widest uppercase no-underline flex items-center gap-2 group/link hover:text-secondary transition-colors"
                       @click="activeMegaMenu = null">
                       Ver todas
@@ -235,12 +235,12 @@ onUnmounted(() => {
                     </router-link>
                   </div>
                   <div class="col-span-3 grid grid-cols-3 gap-6">
-                    <router-link v-for="item in noticiasList.slice(0, 3)" :key="item.slug" :to="`/noticias/${item.slug}`"
-                      class="group/noticias no-underline flex flex-col gap-3 p-2 hover:bg-[#FBFBFB] transition-all duration-500"
+                    <router-link v-for="item in publicacionesList.slice(0, 3)" :key="item.slug" :to="`/publicaciones/${item.slug}`"
+                      class="group/publicaciones no-underline flex flex-col gap-3 p-2 hover:bg-[#FBFBFB] transition-all duration-500"
                       @click="activeMegaMenu = null">
                       <div class="aspect-video overflow-hidden shadow-sm">
                         <img :src="item.image" :alt="item.title"
-                          class="w-full h-full object-cover group-hover/noticias:scale-110 transition-transform duration-700">
+                          class="w-full h-full object-cover group-hover/publicaciones:scale-110 transition-transform duration-700">
                       </div>
                       <div>
                         <div class="flex items-center gap-2 mb-1">
@@ -251,7 +251,7 @@ onUnmounted(() => {
                             item.date }}</span>
                         </div>
                         <h4
-                          class="font-headline text-[11px] text-primary font-bold group-hover/noticias:text-secondary transition-colors leading-snug line-clamp-2">
+                          class="font-headline text-[11px] text-primary font-bold group-hover/publicaciones:text-secondary transition-colors leading-snug line-clamp-2">
                           {{ item.title }}</h4>
                       </div>
                     </router-link>
@@ -313,7 +313,7 @@ onUnmounted(() => {
             </router-link>
 
             <div v-else class="flex items-center gap-2 md:gap-3">
-              <router-link to="/admin/noticias"
+              <router-link to="/admin/publicaciones"
                 class="hidden sm:inline text-[9px] md:text-[10px] font-label font-bold uppercase tracking-widest text-secondary hover:text-primary transition-colors">
                 Panel
               </router-link>
@@ -418,19 +418,19 @@ onUnmounted(() => {
                 </Transition>
               </div>
 
-              <!-- Mobile Noticias -->
+              <!-- Mobile Publicaciones -->
               <div>
                 <div class="flex items-center">
-                  <router-link to="/noticias" @click="toggleMenu" class="mobile-nav-link flex-1">Noticias</router-link>
-                  <button @click="isMobileNoticiasOpen = !isMobileNoticiasOpen" class="p-4 text-primary/30">
+                  <router-link to="/publicaciones" @click="toggleMenu" class="mobile-nav-link flex-1">Publicaciones</router-link>
+                  <button @click="isMobilePublicacionesOpen = !isMobilePublicacionesOpen" class="p-4 text-primary/30">
                     <span class="material-symbols-outlined text-[18px] transition-transform duration-300"
-                      :class="{ 'rotate-180': isMobileNoticiasOpen }">expand_more</span>
+                      :class="{ 'rotate-180': isMobilePublicacionesOpen }">expand_more</span>
                   </button>
                 </div>
                 <Transition name="accordion">
-                  <div v-if="isMobileNoticiasOpen" class="pl-4 pr-2 pb-2">
+                  <div v-if="isMobilePublicacionesOpen" class="pl-4 pr-2 pb-2">
                     <div class="border-l border-secondary/20 pl-3 flex flex-col gap-1">
-                      <router-link v-for="n in noticiasList.slice(0, 4)" :key="n.slug" :to="`/noticias/${n.slug}`"
+                      <router-link v-for="n in publicacionesList.slice(0, 4)" :key="n.slug" :to="`/publicaciones/${n.slug}`"
                         @click="toggleMenu"
                         class="font-label text-[11px] leading-relaxed tracking-[0.04em] uppercase text-primary/60 hover:text-primary transition-colors no-underline py-3 block border-b border-primary/5 last:border-0">
                         {{ n.title }}
@@ -451,7 +451,7 @@ onUnmounted(() => {
                   <span class="font-label text-[10px] uppercase tracking-widest">Iniciar Sesión</span>
                 </router-link>
                 <div v-else class="flex flex-col gap-1">
-                  <router-link to="/admin/noticias" @click="toggleMenu"
+                  <router-link to="/admin/publicaciones" @click="toggleMenu"
                     class="flex items-center gap-3 px-4 py-3 text-secondary">
                     <span class="material-symbols-outlined text-[20px]">dashboard</span>
                     <span class="font-label text-[10px] uppercase tracking-widest font-bold">Panel de Gestión</span>

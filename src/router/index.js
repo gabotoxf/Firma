@@ -6,8 +6,8 @@ import ServiciosView from '@/views/ServiciosView.vue'
 import ServicioDetailView from '@/views/ServicioDetailView.vue'
 import EquipoView from '@/views/EquipoView.vue'
 import EquipoDetailView from '@/views/EquipoDetailView.vue'
-import NoticiasView from '@/views/NoticiasView.vue'
-import NoticiaDetailView from '@/views/NoticiaDetailView.vue'
+import PublicacionesView from '@/views/PublicacionesView.vue'
+import PublicacionDetailView from '@/views/PublicacionDetailView.vue'
 import ContactoView from '@/views/ContactoView.vue'
 import LoginView from '@/views/LoginView.vue'
 
@@ -22,8 +22,8 @@ const routes = [
       { path: 'servicios/:slug', name: 'servicio-detail', component: ServicioDetailView },
       { path: 'equipo', name: 'equipo', component: EquipoView },
       { path: 'equipo/:slug', name: 'equipo-detail', component: EquipoDetailView },
-      { path: 'noticias', name: 'noticias', component: NoticiasView },
-      { path: 'noticias/:slug', name: 'noticia-detail', component: NoticiaDetailView },
+      { path: 'publicaciones', name: 'publicaciones', component: PublicacionesView },
+      { path: 'publicaciones/:slug', name: 'publicacion-detail', component: PublicacionDetailView },
       { path: 'contacto', name: 'contacto', component: ContactoView }
     ]
   },

@@ -1,5 +1,5 @@
 <script setup>
-import NoticiasHero from '../components/NoticiasHero.vue'
+import PublicacionesHero from '../components/PublicacionesHero.vue'
 import AboutUs from '../components/AboutUs.vue'
 import PartnersSection from '../components/PartnersSection.vue'
 import CaseStudies from '../components/CaseStudies.vue'
@@ -8,7 +8,7 @@ import ClientsSlider from '../components/ClientsSlider.vue'
 
 <template>
   <main>
-    <NoticiasHero />
+    <PublicacionesHero />
     <AboutUs />
     <PartnersSection />
     <CaseStudies />

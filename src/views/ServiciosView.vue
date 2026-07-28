@@ -10,7 +10,7 @@ import { services } from '../data/services'
             <!-- Fondo con Imagen y Gradientes -->
 
             <div class="absolute inset-0 opacity-20">
-                <img src="/img/noticias/noticia4.avif"
+                <img src="/img/publicaciones/4.webp"
                     alt="ER Abogados Background" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-b from-primary via-transparent to-primary"></div>
             </div>
