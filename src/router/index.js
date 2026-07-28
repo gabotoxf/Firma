@@ -10,7 +10,7 @@ import PublicacionesView from '@/views/PublicacionesView.vue'
 import PublicacionDetailView from '@/views/PublicacionDetailView.vue'
 import ContactoView from '@/views/ContactoView.vue'
 import LoginView from '@/views/LoginView.vue'
-
+import MisProcesosView from '@/views/MisProcesosView.vue'
 const routes = [
   {
     path: '/',
@@ -24,7 +24,8 @@ const routes = [
       { path: 'equipo/:slug', name: 'equipo-detail', component: EquipoDetailView },
       { path: 'publicaciones', name: 'publicaciones', component: PublicacionesView },
       { path: 'publicaciones/:slug', name: 'publicacion-detail', component: PublicacionDetailView },
-      { path: 'contacto', name: 'contacto', component: ContactoView }
+      { path: 'contacto', name: 'contacto', component: ContactoView },
+      { path: 'mis-procesos', name: 'mis-procesos', component: MisProcesosView }
     ]
   },
   {
