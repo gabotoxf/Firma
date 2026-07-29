@@ -1,0 +1,35 @@
+import { ref, onMounted, onUnmounted } from 'vue'
+
+export function useReveal(options = {}) {
+    const el = ref(null)
+    const isVisible = ref(false)
+    let observer = null
+
+    const {
+        threshold = 0.15,
+        once = true,
+    } = options
+
+    onMounted(() => {
+        if (!el.value) return
+
+        observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    isVisible.value = true
+                    if (once) observer.disconnect()
+                } else if (!once) {
+                    isVisible.value = false
+                }
+            },
+            { threshold }
+        )
+        observer.observe(el.value)
+    })
+
+    onUnmounted(() => {
+        if (observer) observer.disconnect()
+    })
+
+    return { el, isVisible }
+}

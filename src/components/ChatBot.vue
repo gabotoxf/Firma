@@ -2,33 +2,27 @@
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { CHATBOT_SYSTEM_PROMPT, QUICK_QUESTIONS } from '../data/chatbotPrompt.js'
 
-// Soporte para múltiples API Keys con fallback automático si se agota la cuota
 const getApiKeys = () => {
   const keys = []
-  
-  // 1. Clave principal (permite múltiples separadas por comas)
-  const mainKey = import.meta.env.VITE_OPENAI_API_KEY
+  const mainKey = import.meta.env.VITE_GROQ_API_KEY
   if (mainKey) {
     mainKey.split(',').forEach(k => {
       const trimmed = k.trim()
       if (trimmed && !keys.includes(trimmed)) keys.push(trimmed)
     })
   }
-
-  // 2. Claves secundarias (VITE_GROQ_API_KEY_2, VITE_GROQ_API_KEY_3, etc.)
   for (let i = 2; i <= 10; i++) {
-    const key = import.meta.env[`VITE_OPENAI_API_KEY_${i}`]?.trim()
+    const key = import.meta.env[`VITE_GROQ_API_KEY_${i}`]?.trim()
     if (key && !keys.includes(key)) {
       keys.push(key)
     }
   }
-
   return keys
 }
 
 const apiKeys = getApiKeys()
-const GROQ_URL = 'https://api.openai.com/v1/chat/completions'
-const MODEL = 'gpt-5.4'
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions'
+const MODEL = 'llama-3.3-70b-versatile'
 
 const isOpen = ref(false)
 const messages = ref([])
@@ -38,14 +32,12 @@ const showSuggestions = ref(false)
 const apiConfigured = ref(apiKeys.length > 0)
 const chatInput = ref(null)
 
-// Escapa HTML para prevenir XSS
 const escapeHtml = (text) => {
   const div = document.createElement('div')
   div.textContent = text
   return div.innerHTML
 }
 
-// Renderiza markdown simple (**bold**) y saltos de línea de forma segura
 const renderMessage = (content) => {
   return escapeHtml(content)
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
@@ -68,7 +60,6 @@ const handleKeydown = (e) => {
 
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown)
-
   setTimeout(() => {
     isOpen.value = true
     addGreeting()
@@ -82,7 +73,6 @@ const toggleChat = () => {
     addGreeting()
     nextTick(() => chatInput.value?.focus())
   } else {
-    // Focus vuelve al FAB después de cerrar
     nextTick(() => document.querySelector('.fab-button')?.focus())
   }
 }
@@ -90,7 +80,6 @@ const toggleChat = () => {
 const sendMessage = async (text = null) => {
   const messageText = text ?? userInput.value
   if (!messageText.trim() || loading.value) return
-
   if (!text) userInput.value = ''
   messages.value.push({ role: 'user', content: messageText })
   loading.value = true
@@ -136,11 +125,7 @@ const sendMessage = async (text = null) => {
           const errorMsg = errData.error?.message || `Error ${response.status}`
           console.warn(`Groq API key (${i + 1}/${apiKeys.length}) falló: ${errorMsg}`)
           lastError = new Error(errorMsg)
-
-          // Si hay más claves disponibles, continuamos con la siguiente
-          if (i < apiKeys.length - 1) {
-            continue
-          }
+          if (i < apiKeys.length - 1) continue
           throw lastError
         }
 
@@ -149,9 +134,7 @@ const sendMessage = async (text = null) => {
         break
       } catch (err) {
         lastError = err
-        if (i === apiKeys.length - 1) {
-          throw err
-        }
+        if (i === apiKeys.length - 1) throw err
       }
     }
 
@@ -187,7 +170,7 @@ const handleQuickQuestion = (question) => {
 
 <template>
   <Teleport to="body">
-    <!-- FAB button to reopen when chat is closed -->
+    <!-- FAB button -->
     <Transition
       enter-active-class="transition-all duration-500 ease-out"
       enter-from-class="opacity-0 scale-0"
@@ -199,91 +182,90 @@ const handleQuickQuestion = (question) => {
       <button
         v-if="!isOpen"
         @click="toggleChat"
-        class="fab-button fixed bottom-6 right-6 z-50 flex items-center justify-center w-12 h-12 rounded-full shadow-2xl cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95 bg-[var(--color-secondary)]"
+        class="fab-button fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 bg-primary border border-secondary/40 shadow-xl shadow-primary/20"
         aria-label="Abrir chat"
       >
-        <span class="material-symbols-outlined text-white">chat</span>
+        <span class="material-symbols-outlined text-secondary text-2xl">gavel</span>
       </button>
     </Transition>
 
     <!-- Chat Window -->
     <Transition
       enter-active-class="transition-all duration-400 ease-out"
-      enter-from-class="opacity-0 translate-y-6 scale-95"
-      enter-to-class="opacity-100 translate-y-0 scale-100"
+      enter-from-class="opacity-0 translate-y-6"
+      enter-to-class="opacity-100 translate-y-0"
       leave-active-class="transition-all duration-300 ease-in"
-      leave-from-class="opacity-100 translate-y-0 scale-100"
-      leave-to-class="opacity-0 translate-y-6 scale-95"
+      leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 translate-y-6"
     >
       <div
         v-if="isOpen"
-        class="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[560px] max-h-[calc(100vh-6rem)] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-100"
-        style="box-shadow: 0 25px 60px rgba(0,0,0,0.15);"
+        class="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[560px] max-h-[calc(100vh-6rem)] bg-white flex flex-col overflow-hidden border border-primary/10 shadow-2xl shadow-primary/15"
       >
         <!-- Header -->
-        <div class="flex-shrink-0 bg-[var(--color-primary)] px-5 py-4 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-[var(--color-secondary)] flex items-center justify-center">
-              <span class="material-symbols-outlined text-white text-lg">gavel</span>
+        <div class="flex-shrink-0 bg-primary px-6 py-5 flex items-center justify-between border-b border-secondary/20">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 border border-secondary/40 flex items-center justify-center">
+              <span class="material-symbols-outlined text-secondary text-xl">gavel</span>
             </div>
             <div>
-              <h3 class="text-white text-sm font-semibold leading-tight">ER-Abogados</h3>
-              <p class="text-[var(--color-on-primary-container)] text-xs">Asistente Virtual</p>
+              <h3 class="font-headline text-white text-base leading-tight">ER-Abogados</h3>
+              <p class="font-label text-[9px] tracking-[0.2em] uppercase text-secondary/70 mt-0.5">Asistente Virtual</p>
             </div>
           </div>
           <button
             @click="toggleChat"
-            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+            class="w-8 h-8 flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer border-0"
             aria-label="Cerrar chat"
           >
-            <span class="material-symbols-outlined text-white text-lg">close</span>
+            <span class="material-symbols-outlined text-white/60 hover:text-white text-lg transition-colors">close</span>
           </button>
         </div>
 
         <!-- Messages -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-3 chat-messages bg-gray-50/50">
+        <div class="flex-1 overflow-y-auto p-5 space-y-4 chat-messages bg-white">
           <div v-for="(msg, index) in messages" :key="index" class="flex" :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
             <div
-              class="max-w-[85%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed"
+              class="max-w-[85%] px-4 py-3 text-sm leading-relaxed"
               :class="msg.role === 'user'
-                ? 'bg-[var(--color-secondary)] text-white rounded-br-md'
-                : 'bg-white text-[var(--color-on-surface)] shadow-sm border border-gray-100 rounded-bl-md'"
+                ? 'bg-primary text-white'
+                : 'bg-primary/5 text-primary/80 border border-primary/10'"
             >
-              <div v-if="msg.role === 'assistant'" class="flex items-start gap-2.5">
-                <div class="w-6 h-6 rounded-full bg-[var(--color-primary)] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span class="material-symbols-outlined text-white text-xs">gavel</span>
+              <div v-if="msg.role === 'assistant'" class="flex items-start gap-3">
+                <div class="w-6 h-6 border border-secondary/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-secondary text-xs">gavel</span>
                 </div>
                 <div v-html="renderMessage(msg.content)"></div>
               </div>
-              <p v-else>{{ msg.content }}</p>
+              <p v-else class="font-light">{{ msg.content }}</p>
             </div>
           </div>
 
-          <!-- Loading indicator -->
+          <!-- Loading -->
           <div v-if="loading" class="flex justify-start">
-            <div class="bg-white rounded-2xl rounded-bl-md px-4 py-3 shadow-sm border border-gray-100">
-              <div class="flex items-center gap-2">
-                <div class="w-6 h-6 rounded-full bg-[var(--color-primary)] flex items-center justify-center">
-                  <span class="material-symbols-outlined text-white text-xs">gavel</span>
+            <div class="bg-primary/5 border border-primary/10 px-4 py-3">
+              <div class="flex items-center gap-3">
+                <div class="w-6 h-6 border border-secondary/30 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-secondary text-xs">gavel</span>
                 </div>
-                <div class="flex gap-1">
-                  <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay:0ms"></span>
-                  <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay:150ms"></span>
-                  <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay:300ms"></span>
+                <div class="flex gap-1.5">
+                  <span class="w-2 h-2 bg-secondary/60 rounded-full animate-bounce" style="animation-delay:0ms"></span>
+                  <span class="w-2 h-2 bg-secondary/60 rounded-full animate-bounce" style="animation-delay:150ms"></span>
+                  <span class="w-2 h-2 bg-secondary/60 rounded-full animate-bounce" style="animation-delay:300ms"></span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Quick questions (collapsible) -->
-        <div v-if="!loading" class="flex-shrink-0 bg-white border-t border-gray-100">
+        <!-- Quick questions -->
+        <div v-if="!loading" class="flex-shrink-0 bg-white border-t border-primary/5">
           <button
             @click="showSuggestions = !showSuggestions"
-            class="w-full flex items-center justify-between px-4 py-2 text-xs text-gray-400 hover:text-[var(--color-secondary)] transition-colors cursor-pointer"
+            class="w-full flex items-center justify-between px-5 py-2.5 font-label text-[9px] tracking-[0.2em] uppercase text-primary/40 hover:text-secondary transition-colors cursor-pointer border-0"
           >
-            <span class="flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-sm">lightbulb</span>
+            <span class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm text-secondary">lightbulb</span>
               Sugerencias
             </span>
             <span
@@ -300,12 +282,12 @@ const handleQuickQuestion = (question) => {
             leave-to-class="opacity-0 max-h-0"
           >
             <div v-if="showSuggestions" class="overflow-hidden">
-              <div class="flex flex-wrap gap-1.5 px-4 pb-3">
+              <div class="flex flex-wrap gap-1.5 px-5 pb-4">
                 <button
                   v-for="(q, i) in QUICK_QUESTIONS"
                   :key="i"
                   @click="handleQuickQuestion(q)"
-                  class="text-xs px-2.5 py-1 rounded-full border border-[var(--color-secondary)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)] hover:text-white transition-all duration-200 cursor-pointer"
+                  class="font-label text-[9px] tracking-[0.1em] px-3 py-1.5 border border-secondary/30 text-secondary hover:bg-secondary hover:text-white transition-all duration-200 cursor-pointer"
                 >
                   {{ q }}
                 </button>
@@ -314,34 +296,34 @@ const handleQuickQuestion = (question) => {
           </Transition>
         </div>
 
-        <!-- Input area -->
-        <div class="flex-shrink-0 px-4 py-3 bg-white border-t border-gray-100">
-          <form @submit.prevent="sendMessage()" class="flex items-center gap-2">
+        <!-- Input -->
+        <div class="flex-shrink-0 px-5 py-4 bg-white border-t border-primary/5">
+          <form @submit.prevent="sendMessage()" class="flex items-center gap-3">
             <input
               ref="chatInput"
               v-model="userInput"
               type="text"
               placeholder="Escribe tu mensaje..."
-              class="flex-1 px-4 py-2.5 text-sm border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--color-secondary)] focus:border-transparent bg-gray-50/80 transition-all"
+              class="flex-1 px-4 py-2.5 font-body text-sm text-primary border border-primary/10 focus:outline-none focus:border-secondary/50 bg-primary/[0.02] transition-all placeholder:text-primary/20"
               :disabled="loading"
             />
             <button
               type="submit"
               :disabled="loading || !userInput.trim()"
-              class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer"
+              class="w-10 h-10 flex items-center justify-center transition-all duration-200 cursor-pointer border-0"
               :class="loading || !userInput.trim()
-                ? 'bg-gray-200 text-gray-400'
-                : 'bg-[var(--color-secondary)] text-white hover:scale-105 active:scale-95 shadow-md'"
+                ? 'bg-primary/5 text-primary/20'
+                : 'bg-primary text-secondary hover:bg-primary/90'"
               aria-label="Enviar mensaje"
             >
-              <span class="material-symbols-outlined text-lg">send</span>
+              <span class="material-symbols-outlined text-lg">arrow_forward</span>
             </button>
           </form>
         </div>
 
-        <!-- Powered by badge -->
-        <div class="flex-shrink-0 bg-gray-50 px-4 py-1.5 text-center border-t border-gray-100">
-          <span class="text-[10px] text-gray-400">Asistente con IA · ER-Abogados 2026</span>
+        <!-- Badge -->
+        <div class="flex-shrink-0 bg-primary/[0.02] px-5 py-2 text-center border-t border-primary/5">
+          <span class="font-label text-[8px] tracking-[0.2em] uppercase text-primary/30">Asistente con IA · ER-Abogados 2026</span>
         </div>
       </div>
     </Transition>
@@ -357,7 +339,6 @@ const handleQuickQuestion = (question) => {
 }
 .chat-messages::-webkit-scrollbar-thumb {
   background: rgba(197, 160, 89, 0.3);
-  border-radius: 10px;
 }
 .chat-messages::-webkit-scrollbar-thumb:hover {
   background: rgba(197, 160, 89, 0.5);

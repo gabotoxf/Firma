@@ -1,14 +1,10 @@
 <script setup>
-import { useRoute } from 'vue-router'
-import Navbar from '../components/Navbar.vue'
+import SiteNavbar from '../components/SiteNavbar.vue'
 import Footer from '../components/Footer.vue'
-
-const route = useRoute()
-const isHome = () => route.name === 'home'
 </script>
 
 <template>
-  <Navbar v-if="!isHome()" />
+  <SiteNavbar startScrolled />
   <div class="min-h-screen bg-background">
     <router-view />
   </div>
