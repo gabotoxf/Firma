@@ -98,12 +98,12 @@ const currentYear = new Date().getFullYear();
                     &copy; {{ currentYear }} ER Abogados Abogados. Todos los derechos reservados.
                 </p>
                 <!-- Créditos desarrollador -->
-                <div class="flex justify-center">
+                <!-- <div class="flex justify-center">
                     <span style="font-size: 10px;" class="text-[9px] uppercase tracking-[0.2em] text-white/30 text-center">Desarrollado por
-                        <!-- <a href="https://gabotoxf.vercel.app/" target="_blank"
-                            class="text-secondary/60 hover:text-secondary transition-colors font-bold">Gabriel Meza</a> -->
+                        <a href="https://gabotoxf.vercel.app/" target="_blank"
+                            class="text-secondary/60 hover:text-secondary transition-colors font-bold">Gabriel Meza</a>
                     </span>
-                </div>
+                </div> -->
             </div>
         </div>
 
