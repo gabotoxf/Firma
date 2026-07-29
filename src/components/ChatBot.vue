@@ -7,7 +7,7 @@ const getApiKeys = () => {
   const keys = []
   
   // 1. Clave principal (permite múltiples separadas por comas)
-  const mainKey = import.meta.env.VITE_GROQ_API_KEY
+  const mainKey = import.meta.env.VITE_OPENAI_API_KEY
   if (mainKey) {
     mainKey.split(',').forEach(k => {
       const trimmed = k.trim()
@@ -17,7 +17,7 @@ const getApiKeys = () => {
 
   // 2. Claves secundarias (VITE_GROQ_API_KEY_2, VITE_GROQ_API_KEY_3, etc.)
   for (let i = 2; i <= 10; i++) {
-    const key = import.meta.env[`VITE_GROQ_API_KEY_${i}`]?.trim()
+    const key = import.meta.env[`VITE_OPENAI_API_KEY_${i}`]?.trim()
     if (key && !keys.includes(key)) {
       keys.push(key)
     }
@@ -27,8 +27,8 @@ const getApiKeys = () => {
 }
 
 const apiKeys = getApiKeys()
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions'
-const MODEL = 'llama-3.3-70b-versatile'
+const GROQ_URL = 'https://api.openai.com/v1/chat/completions'
+const MODEL = 'gpt-5.4'
 
 const isOpen = ref(false)
 const messages = ref([])
