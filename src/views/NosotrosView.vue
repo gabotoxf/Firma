@@ -23,8 +23,8 @@
                     </h1>
                     <p class="text-lg sm:text-xl text-white/70 font-light leading-relaxed max-w-2xl border-l border-secondary/30 pl-8 opacity-0 animate-slide-up"
                         :style="{ animationDelay: '600ms', animationFillMode: 'forwards' }">
-                        ER Abogados y Asociados S.A.S. es una firma de abogados dedicada a brindar asesoría y
-                        representación legal de alta calidad en las áreas de mayor complejidad del derecho colombiano.
+                        Somos una firma de abogados que entiende la importancia de contar con un resplado confiable en cada decisión legal. Por eso ofrecemos un acompañamiento
+                        integral que proviene riesgos, resuelve conflictos y garantiza tranquilidad a nuestros clientes
                     </p>
                 </div>
             </div>

@@ -346,155 +346,77 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!-- Mobile Drawer -->
-    <Transition name="drawer">
-      <div v-if="isMenuOpen" class="fixed inset-0 z-[200] xl:hidden">
-        <div class="absolute inset-0 bg-primary/40 backdrop-blur-sm" @click="toggleMenu"></div>
-        <div
-          class="drawer-inner absolute top-0 right-0 w-full sm:w-[85%] max-w-[380px] min-h-screen h-screen bg-white flex flex-col overflow-hidden">
+ 
+<Transition name="fullmenu">
+  <div v-if="isMenuOpen" class="fixed inset-0 z-[200] bg-[#032848] flex flex-col lg:flex-row">
 
-          <!-- Drawer Header -->
-          <div class="flex items-center justify-between px-6 pt-6 pb-5 border-b border-primary/5 shrink-0">
-            <div style="width: 140px; height: 44px; overflow: hidden; position: relative;">
-              <img src="/img/logos/logoprin.png" alt="ER Abogados"
-                style="position: absolute; width: 140px; height: auto; top: 50%; transform: translateY(-50%); margin-top: -16px;" />
-            </div>
-            <button @click="toggleMenu" class="p-2 -mr-2 focus:outline-none border-0 bg-transparent cursor-pointer">
-              <span class="material-symbols-outlined text-[22px] text-primary/30">close</span>
-            </button>
-          </div>
+    <!-- Botón cerrar -->
+    <button @click="toggleMenu" aria-label="Cerrar menú"
+      class="absolute top-6 right-6 sm:top-8 sm:right-10 z-20 flex items-center gap-2 text-white/70 hover:text-white transition-colors border-0 bg-transparent cursor-pointer">
+      <span class="font-label text-[10px] tracking-widest uppercase hidden sm:inline">Cerrar</span>
+      <span class="material-symbols-outlined text-2xl">close</span>
+    </button>
 
-          <!-- Mobile Nav Items -->
-          <nav class="flex-1 overflow-y-auto px-4 py-4">
-            <div class="flex flex-col gap-1">
-              <router-link to="/" @click="toggleMenu" class="mobile-nav-link" active-class="active">Inicio</router-link>
-              <router-link to="/nosotros" @click="toggleMenu" class="mobile-nav-link"
-                active-class="active">Nosotros</router-link>
+    <!-- Logo arriba a la izquierda -->
+    <div class="absolute top-6 left-6 sm:top-8 sm:left-10 z-20">
+      <img src="/img/logos/logoprin.png" alt="ER Abogados" class="h-8 sm:h-10 w-auto brightness-0 invert" />
+    </div>
 
-              <!-- Mobile Servicios -->
-              <div>
-                <div class="flex items-center">
-                  <router-link to="/servicios" @click="toggleMenu"
-                    class="mobile-nav-link flex-1">Servicios</router-link>
-                  <button @click="isMobileServicesOpen = !isMobileServicesOpen" class="p-4 text-primary/30">
-                    <span class="material-symbols-outlined text-[18px] transition-transform duration-300"
-                      :class="{ 'rotate-180': isMobileServicesOpen }">expand_more</span>
-                  </button>
-                </div>
-                <Transition name="accordion">
-                  <div v-if="isMobileServicesOpen" class="pl-4 pr-2 pb-2">
-                    <div class="border-l border-secondary/20 pl-3 flex flex-col gap-0.5">
-                      <router-link v-for="s in services" :key="s.slug" :to="`/servicios/${s.slug}`" @click="toggleMenu"
-                        class="flex items-center gap-3 py-2.5 no-underline group">
-                        <span
-                          class="material-symbols-outlined text-[15px] text-secondary/40 group-hover:text-secondary transition-colors">{{
-                            s.icon }}</span>
-                        <span
-                          class="font-label text-[10px] tracking-[0.06em] uppercase text-primary/50 group-hover:text-primary transition-colors">{{
-                            s.title }}</span>
-                      </router-link>
-                    </div>
-                  </div>
-                </Transition>
-              </div>
+    <!-- Columna links -->
+    <div class="flex-1 flex flex-col justify-center px-8 sm:px-16 lg:px-24 py-32">
+      <nav class="flex flex-col gap-6 sm:gap-8">
+        <router-link to="/" @click="toggleMenu"
+          class="text-3xl sm:text-4xl lg:text-5xl font-light text-white/60 hover:text-white transition-colors no-underline"
+          active-class="!text-white !font-normal">
+          Inicio
+        </router-link>
+        <router-link to="/nosotros" @click="toggleMenu"
+          class="text-3xl sm:text-4xl lg:text-5xl font-light text-white/60 hover:text-white transition-colors no-underline"
+          active-class="!text-white !font-normal">
+          Nosotros
+        </router-link>
+        <router-link to="/equipo" @click="toggleMenu"
+          class="text-3xl sm:text-4xl lg:text-5xl font-light text-white/60 hover:text-white transition-colors no-underline border-l-2 border-[#2fa6d8] pl-4 -ml-4"
+          active-class="!text-white !font-normal">
+          Equipo Jurídico
+        </router-link>
+        <router-link to="/servicios" @click="toggleMenu"
+          class="text-3xl sm:text-4xl lg:text-5xl font-light text-white/60 hover:text-white transition-colors no-underline"
+          active-class="!text-white !font-normal">
+          Servicios Legales
+        </router-link>
+        <router-link to="/publicaciones" @click="toggleMenu"
+          class="text-3xl sm:text-4xl lg:text-5xl font-light text-white/60 hover:text-white transition-colors no-underline flex items-center gap-3">
+          Publicaciones
+          <span class="material-symbols-outlined text-2xl text-white/40">add</span>
+        </router-link>
+        <router-link to="/contacto" @click="toggleMenu"
+          class="text-3xl sm:text-4xl lg:text-5xl font-light text-white/60 hover:text-white transition-colors no-underline"
+          active-class="!text-white !font-normal">
+          Contacto
+        </router-link>
+      </nav>
 
-              <!-- Mobile Equipo -->
-              <div>
-                <div class="flex items-center">
-                  <router-link to="/equipo" @click="toggleMenu" class="mobile-nav-link flex-1">Equipo</router-link>
-                  <button @click="isMobileTeamOpen = !isMobileTeamOpen" class="p-4 text-primary/30">
-                    <span class="material-symbols-outlined text-[18px] transition-transform duration-300"
-                      :class="{ 'rotate-180': isMobileTeamOpen }">expand_more</span>
-                  </button>
-                </div>
-                <Transition name="accordion">
-                  <div v-if="isMobileTeamOpen" class="pl-4 pr-2 pb-2">
-                    <div class="border-l border-secondary/20 pl-3 flex flex-col gap-0.5">
-                      <router-link v-for="p in partners" :key="p.slug" :to="`/equipo/${p.slug}`" @click="toggleMenu"
-                        class="font-label text-[10px] tracking-[0.06em] uppercase text-primary/50 hover:text-primary transition-colors no-underline py-2.5 block">{{
-                          p.nombre }}</router-link>
-                    </div>
-                  </div>
-                </Transition>
-              </div>
-
-              <!-- Mobile Publicaciones -->
-              <div>
-                <div class="flex items-center">
-                  <router-link to="/publicaciones" @click="toggleMenu" class="mobile-nav-link flex-1">Publicaciones</router-link>
-                  <button @click="isMobilePublicacionesOpen = !isMobilePublicacionesOpen" class="p-4 text-primary/30">
-                    <span class="material-symbols-outlined text-[18px] transition-transform duration-300"
-                      :class="{ 'rotate-180': isMobilePublicacionesOpen }">expand_more</span>
-                  </button>
-                </div>
-                <Transition name="accordion">
-                  <div v-if="isMobilePublicacionesOpen" class="pl-4 pr-2 pb-2">
-                    <div class="border-l border-secondary/20 pl-3 flex flex-col gap-1">
-                      <router-link v-for="n in publicacionesList.slice(0, 4)" :key="n.slug" :to="`/publicaciones/${n.slug}`"
-                        @click="toggleMenu"
-                        class="font-label text-[11px] leading-relaxed tracking-[0.04em] uppercase text-primary/60 hover:text-primary transition-colors no-underline py-3 block border-b border-primary/5 last:border-0">
-                        {{ n.title }}
-                      </router-link>
-                    </div>
-                  </div>
-                </Transition>
-              </div>
-
-              <router-link to="/contacto" @click="toggleMenu" class="mobile-nav-link"
-                active-class="active">Contacto</router-link>
-
-              <!-- Admin Mobile -->
-              <div class="mt-6 pt-6 border-t border-primary/5">
-                <router-link v-if="!isAuthenticated" to="/login" @click="toggleMenu"
-                  class="flex items-center gap-3 px-4 py-3 text-primary/40">
-                  <span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
-                  <span class="font-label text-[10px] uppercase tracking-widest">Iniciar Sesión</span>
-                </router-link>
-                <div v-else class="flex flex-col gap-1">
-                  <router-link to="/admin/publicaciones" @click="toggleMenu"
-                    class="flex items-center gap-3 px-4 py-3 text-secondary">
-                    <span class="material-symbols-outlined text-[20px]">dashboard</span>
-                    <span class="font-label text-[10px] uppercase tracking-widest font-bold">Panel de Gestión</span>
-                  </router-link>
-                  <button @click="handleLogout"
-                    class="flex items-center gap-3 px-4 py-3 text-red-400 bg-transparent border-0 cursor-pointer w-full text-left">
-                    <span class="material-symbols-outlined text-[20px]">logout</span>
-                    <span class="font-label text-[10px] uppercase tracking-widest">Cerrar Sesión</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </nav>
-
-          <!-- Drawer Footer -->
-          <div class="px-4 pb-6 pt-4 border-t border-primary/5 shrink-0 bg-primary/[0.02]">
-            <router-link to="/contacto" @click="toggleMenu" class="no-underline">
-              <button
-                class="w-full font-label text-[11px] font-semibold tracking-[0.14em] uppercase text-white bg-primary py-3.5 border-0 cursor-pointer">
-                Consulta Inicial
-              </button>
-            </router-link>
-            <div class="flex justify-center items-center gap-4 mt-4">
-              <button @click="setLang('es')"
-                class="flex items-center gap-1.5 border-0 bg-transparent cursor-pointer transition-opacity duration-300"
-                :class="lang === 'es' ? 'opacity-100' : 'opacity-40'">
-                <img src="https://flagcdn.com/w40/es.png" alt="ES" class="h-3.5 w-auto rounded-[2px]" />
-                <span class="font-label text-[10px] font-medium tracking-[0.12em] uppercase text-primary">ES</span>
-              </button>
-
-              <span class="w-px h-4 bg-primary/15"></span>
-
-              <button @click="setLang('en')"
-                class="flex items-center gap-1.5 border-0 bg-transparent cursor-pointer transition-opacity duration-300"
-                :class="lang === 'en' ? 'opacity-100' : 'opacity-40'">
-                <img src="https://flagcdn.com/w40/gb.png" alt="EN" class="h-3.5 w-auto rounded-[2px]" />
-                <span class="font-label text-[10px] font-medium tracking-[0.12em] uppercase text-primary">EN</span>
-              </button>
-            </div>
-          </div>
-        </div>
+      <!-- Redes sociales abajo -->
+      <div class="mt-16 flex items-center gap-6">
+        <a href="#" target="_blank" class="text-white/50 hover:text-white transition-colors">
+          <span class="material-symbols-outlined text-xl">alternate_email</span>
+        </a>
+        <a href="#" target="_blank" class="text-white/50 hover:text-white transition-colors">
+          <span class="material-symbols-outlined text-xl">share</span>
+        </a>
       </div>
-    </Transition>
+    </div>
+
+    <!-- Imagen lateral (solo desktop/tablet) -->
+    <div class="hidden lg:block lg:w-[35%] relative overflow-hidden">
+      <img src="/img/nosotros/hero.avif" alt="ER Abogados oficina"
+        class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-[#032848]/20"></div>
+    </div>
+
+  </div>
+</Transition>
   </nav>
 </template>
 
