@@ -6,8 +6,12 @@ const cases = ref([]);
 
 onMounted(async () => {
     const allCases = await fetchCases();
+<<<<<<< Updated upstream
     // Mostramos solo los primeros 2 casos en el resumen del home
     cases.value = allCases.slice(0, 2);
+=======
+    cases.value = allCases;
+>>>>>>> Stashed changes
 });
 </script>
 

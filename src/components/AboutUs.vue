@@ -41,6 +41,7 @@ import ImgBogota from "/img/nosotros/noso.jpg"
                         </div>
                     </div>
 
+<<<<<<< Updated upstream
                     <!-- Contenedor con Parallax (VIDEO) -->
                     <!-- <div
                         class="relative z-10 overflow-hidden shadow-2xl shadow-primary/10 rounded-sm h-[350px] sm:h-[500px]">
@@ -88,11 +89,41 @@ import ImgBogota from "/img/nosotros/noso.jpg"
                             class="font-label text-[10px] sm:text-[11px] tracking-[0.3em] sm:tracking-[0.35em] uppercase text-secondary font-bold flex items-center gap-3 sm:gap-4">
                             <span class="inline-block w-8 sm:w-10 h-px bg-secondary"></span>
                             Sobre nosotros
+=======
+                    <div class="space-y-5 text-white/60 font-light leading-relaxed text-base sm:text-lg mb-10 max-w-lg"
+                        :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
+                        style="transition: all 0.7s cubic-bezier(0.16,1,0.3,1) 0.3s;">
+                        <p>
+                            En <strong class="text-white font-semibold">ER Abogados</strong> convertimos la experiencia jurídica en tranquilidad para nuestros clientes. Cada caso lo abordamos con el rigor técnico que exige la ley y la sensibilidad que merecen las personas.
+                        </p>
+                        <p>
+                            Nuestro equipo multidisciplinario combina décadas de práctica legal con una visión moderna del derecho, ofreciendo soluciones estratégicas en las áreas más complejas del ámbito jurídico.
+>>>>>>> Stashed changes
                         </p>
                         <h2 class="font-headline text-3xl sm:text-4xl lg:text-5xl text-primary leading-tight font-bold">
                             ¿Quiénes
                             <em class="text-secondary italic not-italic">somos?</em>
                         </h2>
+                    </div>
+
+                    <!-- Sectores de práctica -->
+                    <div class="mb-12"
+                        :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
+                        style="transition: all 0.7s cubic-bezier(0.16,1,0.3,1) 0.35s;">
+                        <p class="font-label text-[8px] sm:text-[9px] tracking-[0.3em] uppercase text-secondary font-bold mb-5 flex items-center gap-3">
+                            <span class="inline-block w-6 h-px bg-secondary/40"></span>
+                            Áreas de especialización
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="font-label text-[8px] tracking-[0.15em] uppercase text-white/70 border border-white/10 px-3 py-1.5 hover:border-secondary/40 hover:text-secondary transition-all duration-300">Derecho Corporativo</span>
+                            <span class="font-label text-[8px] tracking-[0.15em] uppercase text-white/70 border border-white/10 px-3 py-1.5 hover:border-secondary/40 hover:text-secondary transition-all duration-300">Responsabilidad Civil</span>
+                            <span class="font-label text-[8px] tracking-[0.15em] uppercase text-white/70 border border-white/10 px-3 py-1.5 hover:border-secondary/40 hover:text-secondary transition-all duration-300">Seguros</span>
+                            <span class="font-label text-[8px] tracking-[0.15em] uppercase text-white/70 border border-white/10 px-3 py-1.5 hover:border-secondary/40 hover:text-secondary transition-all duration-300">Litigio Estratégico</span>
+                            <span class="font-label text-[8px] tracking-[0.15em] uppercase text-white/70 border border-white/10 px-3 py-1.5 hover:border-secondary/40 hover:text-secondary transition-all duration-300">Derecho Laboral</span>
+                            <span class="font-label text-[8px] tracking-[0.15em] uppercase text-white/70 border border-white/10 px-3 py-1.5 hover:border-secondary/40 hover:text-secondary transition-all duration-300">Derecho Tributario</span>
+                            <span class="font-label text-[8px] tracking-[0.15em] uppercase text-white/70 border border-white/10 px-3 py-1.5 hover:border-secondary/40 hover:text-secondary transition-all duration-300">Derecho Minero</span>
+                            <span class="font-label text-[8px] tracking-[0.15em] uppercase text-white/70 border border-white/10 px-3 py-1.5 hover:border-secondary/40 hover:text-secondary transition-all duration-300">Derecho Inmobiliario</span>
+                        </div>
                     </div>
 
                     <div
