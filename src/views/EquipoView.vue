@@ -1,7 +1,9 @@
 <script setup>
+import { ref } from 'vue'
 import socios from '../data/socios'
 
 const partners = socios
+const hoveredSlug = ref(null)
 </script>
 
 <template>
@@ -44,9 +46,12 @@ const partners = socios
 
         <section class="py-24 px-8 lg:px-24">
             <div class="max-w-[1400px] mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
-                    <router-link v-for="partner in partners" :key="partner.slug" :to="`/equipo/${partner.slug}`"
-                        class="group no-underline block h-full flex flex-col">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16 py-2">
+                  <router-link v-for="partner in partners" :key="partner.slug" :to="`/equipo/${partner.slug}`"
+                        @mouseenter="hoveredSlug = partner.slug"
+                        @mouseleave="hoveredSlug = null"
+                        class="group no-underline block h-full flex flex-col transition-all duration-500"
+                        :class="hoveredSlug && hoveredSlug !== partner.slug ? 'opacity-40 blur-[2px] scale-[0.98]' : 'opacity-100 blur-0 scale-100'">
                         <div class="relative aspect-[16/10] overflow-hidden bg-primary/5 mb-6">
                             <img :src="partner.image" :alt="partner.nombre"
                                 class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 group-hover:opacity-90">

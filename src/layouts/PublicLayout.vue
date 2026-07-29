@@ -1,11 +1,10 @@
 <script setup>
-// Layout para el sitio público con Navbar y Footer
-import Navbar from '../components/Navbar.vue'
+import SiteNavbar from '../components/SiteNavbar.vue'
 import Footer from '../components/Footer.vue'
 </script>
 
 <template>
-  <Navbar />
+  <SiteNavbar startScrolled />
   <div class="min-h-screen bg-background">
     <router-view />
   </div>

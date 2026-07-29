@@ -1,133 +1,346 @@
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { CHATBOT_SYSTEM_PROMPT, QUICK_QUESTIONS } from '../data/chatbotPrompt.js'
 
-// Cambia esto por la URL real de tu backend en producción
-const API_URL = import.meta.env.VITE_API_URL
-  ? `${import.meta.env.VITE_API_URL}/api/chat-firma`
-  : 'http://localhost:3000/api/chat-firma'
+const getApiKeys = () => {
+  const keys = []
+  const mainKey = import.meta.env.VITE_GROQ_API_KEY
+  if (mainKey) {
+    mainKey.split(',').forEach(k => {
+      const trimmed = k.trim()
+      if (trimmed && !keys.includes(trimmed)) keys.push(trimmed)
+    })
+  }
+  for (let i = 2; i <= 10; i++) {
+    const key = import.meta.env[`VITE_GROQ_API_KEY_${i}`]?.trim()
+    if (key && !keys.includes(key)) {
+      keys.push(key)
+    }
+  }
+  return keys
+}
 
-const abierto = ref(false)
-const mensajes = ref([
-  { role: 'assistant', content: 'Hola, soy el asistente virtual de ER Abogados. ¿En qué puedo ayudarte?' }
-])
-const textoInput = ref('')
-const enviando = ref(false)
-const contenedorMensajes = ref(null)
+const apiKeys = getApiKeys()
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions'
+const MODEL = 'llama-3.3-70b-versatile'
+
+const isOpen = ref(false)
+const messages = ref([])
+const userInput = ref('')
+const loading = ref(false)
+const showSuggestions = ref(false)
+const apiConfigured = ref(apiKeys.length > 0)
+const chatInput = ref(null)
+
+const escapeHtml = (text) => {
+  const div = document.createElement('div')
+  div.textContent = text
+  return div.innerHTML
+}
+
+const renderMessage = (content) => {
+  return escapeHtml(content)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>')
+}
+
+const addGreeting = () => {
+  if (messages.value.length > 0) return
+  const greeting = apiConfigured.value
+    ? '¡Hola! 👋 Soy el asistente virtual de **ER-Abogados.** Estoy aquí para ayudarte con información sobre nuestros servicios legales, nuestro equipo y cualquier consulta que tengas. ¿En qué puedo ayudarte hoy?'
+    : '⚠️ El asistente virtual no está disponible en este momento porque falta configurar la clave de API. Por favor, contacta al administrador del sitio para activar esta funcionalidad.'
+  messages.value.push({ role: 'assistant', content: greeting })
+}
+
+const handleKeydown = (e) => {
+  if (e.key === 'Escape' && isOpen.value) {
+    isOpen.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown)
+  setTimeout(() => {
+    isOpen.value = true
+    addGreeting()
+    nextTick(() => chatInput.value?.focus())
+  }, 5000)
+})
 
 const toggleChat = () => {
-  abierto.value = !abierto.value
-}
-
-const scrollAbajo = async () => {
-  await nextTick()
-  if (contenedorMensajes.value) {
-    contenedorMensajes.value.scrollTop = contenedorMensajes.value.scrollHeight
+  isOpen.value = !isOpen.value
+  if (isOpen.value) {
+    addGreeting()
+    nextTick(() => chatInput.value?.focus())
+  } else {
+    nextTick(() => document.querySelector('.fab-button')?.focus())
   }
 }
 
-const enviarMensaje = async () => {
-  const texto = textoInput.value.trim()
-  if (!texto || enviando.value) return
+const sendMessage = async (text = null) => {
+  const messageText = text ?? userInput.value
+  if (!messageText.trim() || loading.value) return
+  if (!text) userInput.value = ''
+  messages.value.push({ role: 'user', content: messageText })
+  loading.value = true
 
-  mensajes.value.push({ role: 'user', content: texto })
-  textoInput.value = ''
-  enviando.value = true
-  scrollAbajo()
+  if (!apiConfigured.value) {
+    messages.value.push({
+      role: 'assistant',
+      content: 'Lo siento, el asistente no está configurado correctamente. Por favor, contacta al administrador del sitio o escríbenos directamente al **+57 3242757680**.'
+    })
+    loading.value = false
+    await scrollToBottom()
+    return
+  }
+
+  const conversationHistory = [
+    { role: 'system', content: CHATBOT_SYSTEM_PROMPT },
+    ...messages.value.slice(-10).map(m => ({ role: m.role, content: m.content }))
+  ]
 
   try {
-    // historial sin el mensaje que se acaba de agregar (el backend lo añade aparte)
-    const historial = mensajes.value.slice(0, -1).map(m => ({ role: m.role, content: m.content }))
+    let assistantMessage = null
+    let lastError = null
 
-    const res = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mensaje: texto, historial })
-    })
+    for (let i = 0; i < apiKeys.length; i++) {
+      const key = apiKeys[i]
+      try {
+        const response = await fetch(GROQ_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${key}`
+          },
+          body: JSON.stringify({
+            model: MODEL,
+            messages: conversationHistory,
+            temperature: 0.6,
+            max_completion_tokens: 512
+          })
+        })
 
-    if (!res.ok) throw new Error('Error de red')
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}))
+          const errorMsg = errData.error?.message || `Error ${response.status}`
+          console.warn(`Groq API key (${i + 1}/${apiKeys.length}) falló: ${errorMsg}`)
+          lastError = new Error(errorMsg)
+          if (i < apiKeys.length - 1) continue
+          throw lastError
+        }
 
-    const data = await res.json()
-    mensajes.value.push({ role: 'assistant', content: data.respuesta })
+        const data = await response.json()
+        assistantMessage = data.choices[0].message.content
+        break
+      } catch (err) {
+        lastError = err
+        if (i === apiKeys.length - 1) throw err
+      }
+    }
+
+    if (assistantMessage) {
+      messages.value.push({ role: 'assistant', content: assistantMessage })
+    }
   } catch (err) {
-    mensajes.value.push({
+    console.error('ChatBot error:', err)
+    messages.value.push({
       role: 'assistant',
-      content: 'Lo siento, hubo un problema al procesar tu mensaje. Intenta de nuevo en un momento.'
+      content: 'Lo siento, estoy teniendo problemas para conectarme. Por favor intenta de nuevo más tarde o contáctanos directamente al **+57 3242757680**.'
     })
   } finally {
-    enviando.value = false
-    scrollAbajo()
+    loading.value = false
+    await scrollToBottom()
   }
+}
+
+const scrollToBottom = async () => {
+  await nextTick()
+  const container = document.querySelector('.chat-messages')
+  if (container) container.scrollTop = container.scrollHeight
+}
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown)
+})
+
+const handleQuickQuestion = (question) => {
+  sendMessage(question)
 }
 </script>
 
 <template>
-  <!-- Botón flotante -->
-  <button
-    @click="toggleChat"
-    class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-white shadow-lg flex items-center justify-center hover:bg-primary/90 transition-colors duration-300"
-    aria-label="Abrir chat"
-  >
-    <span v-if="!abierto" class="material-symbols-outlined text-[26px]">chat</span>
-    <span v-else class="material-symbols-outlined text-[26px]">close</span>
-  </button>
-
-  <!-- Ventana de chat -->
-  <transition name="fade-up">
-    <div
-      v-if="abierto"
-      class="fixed bottom-24 right-6 z-50 w-[340px] max-w-[90vw] h-[460px] max-h-[70vh] bg-white shadow-2xl flex flex-col overflow-hidden"
+  <Teleport to="body">
+    <!-- FAB button -->
+    <Transition
+      enter-active-class="transition-all duration-500 ease-out"
+      enter-from-class="opacity-0 scale-0"
+      enter-to-class="opacity-100 scale-100"
+      leave-active-class="transition-all duration-300 ease-in"
+      leave-from-class="opacity-100 scale-100"
+      leave-to-class="opacity-0 scale-0"
     >
-      <!-- Header -->
-      <div class="bg-primary px-5 py-4 flex items-center gap-2">
-        <div class="w-5 h-px bg-secondary"></div>
-        <span class="font-label text-[10px] tracking-[0.3em] uppercase text-secondary">ER Abogados</span>
-      </div>
+      <button
+        v-if="!isOpen"
+        @click="toggleChat"
+        class="fab-button fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 bg-primary border border-secondary/40 shadow-xl shadow-primary/20"
+        aria-label="Abrir chat"
+      >
+        <span class="material-symbols-outlined text-secondary text-2xl">gavel</span>
+      </button>
+    </Transition>
 
-      <!-- Mensajes -->
-      <div ref="contenedorMensajes" class="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3 bg-gray-50">
-        <div
-          v-for="(msg, i) in mensajes"
-          :key="i"
-          :class="msg.role === 'user' ? 'self-end bg-primary text-white' : 'self-start bg-white text-primary border border-gray-200'"
-          class="max-w-[85%] px-3.5 py-2.5 text-[13px] leading-relaxed rounded-sm"
-        >
-          {{ msg.content }}
+    <!-- Chat Window -->
+    <Transition
+      enter-active-class="transition-all duration-400 ease-out"
+      enter-from-class="opacity-0 translate-y-6"
+      enter-to-class="opacity-100 translate-y-0"
+      leave-active-class="transition-all duration-300 ease-in"
+      leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 translate-y-6"
+    >
+      <div
+        v-if="isOpen"
+        class="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[560px] max-h-[calc(100vh-6rem)] bg-white flex flex-col overflow-hidden border border-primary/10 shadow-2xl shadow-primary/15"
+      >
+        <!-- Header -->
+        <div class="flex-shrink-0 bg-primary px-6 py-5 flex items-center justify-between border-b border-secondary/20">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 border border-secondary/40 flex items-center justify-center">
+              <span class="material-symbols-outlined text-secondary text-xl">gavel</span>
+            </div>
+            <div>
+              <h3 class="font-headline text-white text-base leading-tight">ER-Abogados</h3>
+              <p class="font-label text-[9px] tracking-[0.2em] uppercase text-secondary/70 mt-0.5">Asistente Virtual</p>
+            </div>
+          </div>
+          <button
+            @click="toggleChat"
+            class="w-8 h-8 flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer border-0"
+            aria-label="Cerrar chat"
+          >
+            <span class="material-symbols-outlined text-white/60 hover:text-white text-lg transition-colors">close</span>
+          </button>
         </div>
-        <div v-if="enviando" class="self-start bg-white text-gray-400 border border-gray-200 px-3.5 py-2.5 text-[13px] rounded-sm">
-          Escribiendo...
+
+        <!-- Messages -->
+        <div class="flex-1 overflow-y-auto p-5 space-y-4 chat-messages bg-white">
+          <div v-for="(msg, index) in messages" :key="index" class="flex" :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
+            <div
+              class="max-w-[85%] px-4 py-3 text-sm leading-relaxed"
+              :class="msg.role === 'user'
+                ? 'bg-primary text-white'
+                : 'bg-primary/5 text-primary/80 border border-primary/10'"
+            >
+              <div v-if="msg.role === 'assistant'" class="flex items-start gap-3">
+                <div class="w-6 h-6 border border-secondary/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-secondary text-xs">gavel</span>
+                </div>
+                <div v-html="renderMessage(msg.content)"></div>
+              </div>
+              <p v-else class="font-light">{{ msg.content }}</p>
+            </div>
+          </div>
+
+          <!-- Loading -->
+          <div v-if="loading" class="flex justify-start">
+            <div class="bg-primary/5 border border-primary/10 px-4 py-3">
+              <div class="flex items-center gap-3">
+                <div class="w-6 h-6 border border-secondary/30 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-secondary text-xs">gavel</span>
+                </div>
+                <div class="flex gap-1.5">
+                  <span class="w-2 h-2 bg-secondary/60 rounded-full animate-bounce" style="animation-delay:0ms"></span>
+                  <span class="w-2 h-2 bg-secondary/60 rounded-full animate-bounce" style="animation-delay:150ms"></span>
+                  <span class="w-2 h-2 bg-secondary/60 rounded-full animate-bounce" style="animation-delay:300ms"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick questions -->
+        <div v-if="!loading" class="flex-shrink-0 bg-white border-t border-primary/5">
+          <button
+            @click="showSuggestions = !showSuggestions"
+            class="w-full flex items-center justify-between px-5 py-2.5 font-label text-[9px] tracking-[0.2em] uppercase text-primary/40 hover:text-secondary transition-colors cursor-pointer border-0"
+          >
+            <span class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm text-secondary">lightbulb</span>
+              Sugerencias
+            </span>
+            <span
+              class="material-symbols-outlined text-sm transition-transform duration-300"
+              :class="showSuggestions ? 'rotate-180' : ''"
+            >expand_more</span>
+          </button>
+          <Transition
+            enter-active-class="transition-all duration-300 ease-out"
+            enter-from-class="opacity-0 max-h-0"
+            enter-to-class="opacity-100 max-h-40"
+            leave-active-class="transition-all duration-200 ease-in"
+            leave-from-class="opacity-100 max-h-40"
+            leave-to-class="opacity-0 max-h-0"
+          >
+            <div v-if="showSuggestions" class="overflow-hidden">
+              <div class="flex flex-wrap gap-1.5 px-5 pb-4">
+                <button
+                  v-for="(q, i) in QUICK_QUESTIONS"
+                  :key="i"
+                  @click="handleQuickQuestion(q)"
+                  class="font-label text-[9px] tracking-[0.1em] px-3 py-1.5 border border-secondary/30 text-secondary hover:bg-secondary hover:text-white transition-all duration-200 cursor-pointer"
+                >
+                  {{ q }}
+                </button>
+              </div>
+            </div>
+          </Transition>
+        </div>
+
+        <!-- Input -->
+        <div class="flex-shrink-0 px-5 py-4 bg-white border-t border-primary/5">
+          <form @submit.prevent="sendMessage()" class="flex items-center gap-3">
+            <input
+              ref="chatInput"
+              v-model="userInput"
+              type="text"
+              placeholder="Escribe tu mensaje..."
+              class="flex-1 px-4 py-2.5 font-body text-sm text-primary border border-primary/10 focus:outline-none focus:border-secondary/50 bg-primary/[0.02] transition-all placeholder:text-primary/20"
+              :disabled="loading"
+            />
+            <button
+              type="submit"
+              :disabled="loading || !userInput.trim()"
+              class="w-10 h-10 flex items-center justify-center transition-all duration-200 cursor-pointer border-0"
+              :class="loading || !userInput.trim()
+                ? 'bg-primary/5 text-primary/20'
+                : 'bg-primary text-secondary hover:bg-primary/90'"
+              aria-label="Enviar mensaje"
+            >
+              <span class="material-symbols-outlined text-lg">arrow_forward</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Badge -->
+        <div class="flex-shrink-0 bg-primary/[0.02] px-5 py-2 text-center border-t border-primary/5">
+          <span class="font-label text-[8px] tracking-[0.2em] uppercase text-primary/30">Asistente con IA · ER-Abogados 2026</span>
         </div>
       </div>
-
-      <!-- Input -->
-      <form @submit.prevent="enviarMensaje" class="flex items-center border-t border-gray-200 bg-white">
-        <input
-          v-model="textoInput"
-          type="text"
-          placeholder="Escribe tu pregunta..."
-          class="flex-1 px-4 py-3 text-[13px] outline-none font-label"
-          :disabled="enviando"
-        />
-        <button
-          type="submit"
-          :disabled="enviando || !textoInput.trim()"
-          class="px-4 py-3 text-primary disabled:opacity-30 hover:text-secondary transition-colors"
-          aria-label="Enviar mensaje"
-        >
-          <span class="material-symbols-outlined text-[20px]">send</span>
-        </button>
-      </form>
-    </div>
-  </transition>
+    </Transition>
+  </Teleport>
 </template>
 
 <style scoped>
-.fade-up-enter-active,
-.fade-up-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+.chat-messages::-webkit-scrollbar {
+  width: 4px;
 }
-.fade-up-enter-from,
-.fade-up-leave-to {
-  opacity: 0;
-  transform: translateY(12px);
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(197, 160, 89, 0.3);
+}
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(197, 160, 89, 0.5);
 }
 </style>
