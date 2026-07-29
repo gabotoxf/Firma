@@ -108,7 +108,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   <Teleport to="body">
     <Transition name="fullmenu">
       <div v-if="isMenuOpen" @mousemove="handleMenuMouseMove"
-        class="fixed inset-0 z-[200] bg-[#032848] flex flex-col lg:flex-row overflow-y-auto">
+        class="fixed inset-0 z-[200] bg-[#1e3032] flex flex-col lg:flex-row overflow-y-auto">
 
         <div class="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
           :style="{
@@ -146,7 +146,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
               <span class="relative text-2xl sm:text-3xl lg:text-4xl font-light text-white/55 group-hover:text-white group-hover:translate-x-3 transition-all duration-300">
                 {{ item.label }}
               </span>
-              <span class="material-symbols-outlined ml-auto relative text-white/0 group-hover:text-[#2fa6d8] -translate-x-3 group-hover:translate-x-0 transition-all duration-300 text-2xl hidden sm:inline">
+              <span class="material-symbols-outlined ml-auto relative text-white/0 group-hover:text-[#7c5b46] -translate-x-3 group-hover:translate-x-0 transition-all duration-300 text-2xl hidden sm:inline">
                 arrow_outward
               </span>
             </router-link>
@@ -178,16 +178,16 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
           </div>
         </div>
 
-        <div class="hidden lg:flex lg:w-[32%] relative overflow-hidden bg-[#021a30] items-end p-12">
+        <div class="hidden lg:flex lg:w-[32%] relative overflow-hidden bg-[#0d1b1c] items-end p-12">
           <div class="blob blob-1"></div>
           <div class="blob blob-2"></div>
           <div class="relative z-10 menu-panel-content">
-            <p class="text-[10px] tracking-[0.25em] uppercase text-[#2fa6d8] mb-3">Consulta inicial</p>
+            <p class="text-[10px] tracking-[0.25em] uppercase text-[#7c5b46] mb-3">Consulta inicial</p>
             <p class="text-xl text-white/80 font-light leading-relaxed mb-6">
               ¿Necesitas asesoría legal? Estamos para acompañarte.
             </p>
             <router-link to="/contacto" @click="toggleMenu"
-              class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-white border border-white/30 rounded-md px-5 py-3 hover:bg-white hover:text-[#032848] transition-all duration-300 no-underline">
+              class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-white border border-white/30 rounded-md px-5 py-3 hover:bg-white hover:text-[#1e3032] transition-all duration-300 no-underline">
               Escríbenos
               <span class="material-symbols-outlined text-base">east</span>
             </router-link>
@@ -247,13 +247,13 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 }
 .blob-1 {
   width: 280px; height: 280px;
-  background: #2fa6d8;
+  background: #7c5b46;
   top: -60px; right: -60px;
   animation: blobFloat1 9s ease-in-out infinite;
 }
 .blob-2 {
   width: 220px; height: 220px;
-  background: #1a4d7a;
+  background: #3a4f51;
   bottom: 40px; left: -60px;
   animation: blobFloat2 11s ease-in-out infinite;
 }

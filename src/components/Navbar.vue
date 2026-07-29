@@ -129,7 +129,7 @@ onUnmounted(() => {
                   <div class="col-span-3 grid grid-cols-3 gap-x-6 gap-y-8">
                     <router-link v-for="service in services.slice(0, 6)" :key="service.slug"
                       :to="`/servicios/${service.slug}`"
-                      class="group/item no-underline p-4 hover:bg-[#FBFBFB] transition-all duration-500 border border-transparent hover:border-primary/5 rounded-sm"
+                      class="group/item no-underline p-4 hover:bg-[#f5efed] transition-all duration-500 border border-transparent hover:border-primary/5 rounded-sm"
                       @click="activeMegaMenu = null">
                       <div class="flex flex-col gap-3">
                         <span
@@ -180,7 +180,7 @@ onUnmounted(() => {
                   </div>
                   <div class="col-span-3 grid grid-cols-2 gap-6">
                     <router-link v-for="partner in partners" :key="partner.slug" :to="`/equipo/${partner.slug}`"
-                      class="group/partner flex items-center gap-6 p-4 hover:bg-[#FBFBFB] transition-all duration-500 border border-transparent hover:border-primary/5 rounded-sm no-underline"
+                      class="group/partner flex items-center gap-6 p-4 hover:bg-[#f5efed] transition-all duration-500 border border-transparent hover:border-primary/5 rounded-sm no-underline"
                       @click="activeMegaMenu = null">
                       <div class="w-34 h-45 overflow-hidden shadow-md">
                         <img :src="partner.image" :alt="partner.nombre"
@@ -236,7 +236,7 @@ onUnmounted(() => {
                   </div>
                   <div class="col-span-3 grid grid-cols-3 gap-6">
                     <router-link v-for="item in publicacionesList.slice(0, 3)" :key="item.slug" :to="`/publicaciones/${item.slug}`"
-                      class="group/publicaciones no-underline flex flex-col gap-3 p-2 hover:bg-[#FBFBFB] transition-all duration-500"
+                      class="group/publicaciones no-underline flex flex-col gap-3 p-2 hover:bg-[#f5efed] transition-all duration-500"
                       @click="activeMegaMenu = null">
                       <div class="aspect-video overflow-hidden shadow-sm">
                         <img :src="item.image" :alt="item.title"
@@ -348,7 +348,7 @@ onUnmounted(() => {
 
  
 <Transition name="fullmenu">
-  <div v-if="isMenuOpen" class="fixed inset-0 z-[200] bg-[#032848] flex flex-col lg:flex-row">
+  <div v-if="isMenuOpen" class="fixed inset-0 z-[200] bg-[#1e3032] flex flex-col lg:flex-row">
 
     <!-- Botón cerrar -->
     <button @click="toggleMenu" aria-label="Cerrar menú"
@@ -376,7 +376,7 @@ onUnmounted(() => {
           Nosotros
         </router-link>
         <router-link to="/equipo" @click="toggleMenu"
-          class="text-3xl sm:text-4xl lg:text-5xl font-light text-white/60 hover:text-white transition-colors no-underline border-l-2 border-[#2fa6d8] pl-4 -ml-4"
+          class="text-3xl sm:text-4xl lg:text-5xl font-light text-white/60 hover:text-white transition-colors no-underline border-l-2 border-[#7c5b46] pl-4 -ml-4"
           active-class="!text-white !font-normal">
           Equipo Jurídico
         </router-link>
@@ -412,7 +412,7 @@ onUnmounted(() => {
     <div class="hidden lg:block lg:w-[35%] relative overflow-hidden">
       <img src="/img/nosotros/hero.avif" alt="ER Abogados oficina"
         class="absolute inset-0 w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-[#032848]/20"></div>
+      <div class="absolute inset-0 bg-[#1e3032]/20"></div>
     </div>
 
   </div>

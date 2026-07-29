@@ -153,7 +153,7 @@ const irAPagina = (page) => {
     </section>
 
     <!-- Newsletter Minimalista -->
-    <section class="py-32 px-8 lg:px-24 bg-[#FAFAFA]">
+    <section class="py-32 px-8 lg:px-24 bg-[#ebe5e3]">
       <div class="max-w-2xl mx-auto text-center">
         <h2 class="font-headline text-2xl text-primary font-bold mb-10">Reciba nuestro análisis legal directamente en su
           correo.</h2>

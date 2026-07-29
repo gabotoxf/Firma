@@ -141,7 +141,7 @@ onMounted(() => {
 :deep(.swiper-pagination-bullet) {
   width: 10px;
   height: 10px;
-  background: #C5A059;
+  background: #7c5b46;
   opacity: 0.3;
   transition: opacity 0.3s;
 }
