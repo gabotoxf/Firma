@@ -2,34 +2,16 @@
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { CHATBOT_SYSTEM_PROMPT, QUICK_QUESTIONS } from '../data/chatbotPrompt.js'
 
-const getApiKeys = () => {
-  const keys = []
-  const mainKey = import.meta.env.VITE_GROQ_API_KEY
-  if (mainKey) {
-    mainKey.split(',').forEach(k => {
-      const trimmed = k.trim()
-      if (trimmed && !keys.includes(trimmed)) keys.push(trimmed)
-    })
-  }
-  for (let i = 2; i <= 10; i++) {
-    const key = import.meta.env[`VITE_GROQ_API_KEY_${i}`]?.trim()
-    if (key && !keys.includes(key)) {
-      keys.push(key)
-    }
-  }
-  return keys
-}
-
-const apiKeys = getApiKeys()
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions'
-const MODEL = 'llama-3.3-70b-versatile'
+const apiKey = import.meta.env.VITE_OPENAI_API_KEY || ''
+const OPENAI_URL = 'https://api.openai.com/v1/chat/completions'
+const MODEL = 'gpt-5.4'
 
 const isOpen = ref(false)
 const messages = ref([])
 const userInput = ref('')
 const loading = ref(false)
 const showSuggestions = ref(false)
-const apiConfigured = ref(apiKeys.length > 0)
+const apiConfigured = ref(!!apiKey)
 const chatInput = ref(null)
 
 const escapeHtml = (text) => {
@@ -100,44 +82,27 @@ const sendMessage = async (text = null) => {
   ]
 
   try {
-    let assistantMessage = null
-    let lastError = null
+    const response = await fetch(OPENAI_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: conversationHistory,
+        temperature: 0.6,
+        max_completion_tokens: 1200
+      })
+    })
 
-    for (let i = 0; i < apiKeys.length; i++) {
-      const key = apiKeys[i]
-      try {
-        const response = await fetch(GROQ_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${key}`
-          },
-          body: JSON.stringify({
-            model: MODEL,
-            messages: conversationHistory,
-            temperature: 0.6,
-            max_completion_tokens: 512
-          })
-        })
-
-        if (!response.ok) {
-          const errData = await response.json().catch(() => ({}))
-          const errorMsg = errData.error?.message || `Error ${response.status}`
-          console.warn(`Groq API key (${i + 1}/${apiKeys.length}) falló: ${errorMsg}`)
-          lastError = new Error(errorMsg)
-          if (i < apiKeys.length - 1) continue
-          throw lastError
-        }
-
-        const data = await response.json()
-        assistantMessage = data.choices[0].message.content
-        break
-      } catch (err) {
-        lastError = err
-        if (i === apiKeys.length - 1) throw err
-      }
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}))
+      throw new Error(errData.error?.message || `Error ${response.status}`)
     }
 
+    const data = await response.json()
+    const assistantMessage = data.choices[0].message.content
     if (assistantMessage) {
       messages.value.push({ role: 'assistant', content: assistantMessage })
     }
