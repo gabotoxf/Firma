@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 import { Toaster } from 'vue-sonner'
 import Loader from './components/Loader.vue'
 import ChatBot from './components/ChatBot.vue'
-
 const loading = ref(true)
 
 onMounted(() => {
@@ -17,7 +16,7 @@ onMounted(() => {
   <Loader v-if="loading" />
   <div v-else>
     <RouterView />
-    <ChatBot />
     <Toaster />
+    <ChatBot />
   </div>
 </template>
