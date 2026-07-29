@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from 'vue'
-import SiteNavbar from './SiteNavbar.vue'
 
 const props = defineProps({
   videoSrc: {
@@ -21,7 +20,6 @@ const videoType = computed(() => {
 </script>
 
 <template>
-  <SiteNavbar />
 
   <section class="relative w-full h-[600px] md:h-[650px] lg:h-screen overflow-hidden bg-primary">
     <video autoplay muted loop playsinline :poster="posterSrc" class="absolute inset-0 w-full h-full object-cover">
@@ -32,11 +30,46 @@ const videoType = computed(() => {
 
     <div class="absolute inset-0 flex items-center z-10 px-6 sm:px-12 lg:px-24 pt-[76px] lg:pt-[88px]">
       <div class="max-w-[1920px] mx-auto w-full">
-        <div class="max-w-full md:max-w-[70%] lg:max-w-[60%]">
-          <h1 class="font-body font-light text-white text-3xl md:text-5xl lg:text-7xl leading-tight">
-            Excelencia jurídica<br />
-            para tu tranquilidad
+        <div class="max-w-full md:max-w-[75%] lg:max-w-[65%]">
+          <!-- Trust badges -->
+          <div class="flex flex-wrap gap-3 mb-8 opacity-0 animate-fade-in" style="animation-delay: 200ms; animation-fill-mode: forwards;">
+            <span class="inline-flex items-center gap-2 font-label text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-semibold text-white bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2.5 shadow-lg shadow-black/10">
+              <span class="material-symbols-outlined text-secondary text-base">calendar_month</span>
+              +25 Años de experiencia
+            </span>
+            <span class="inline-flex items-center gap-2 font-label text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-semibold text-white bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2.5 shadow-lg shadow-black/10">
+              <span class="material-symbols-outlined text-secondary text-base">verified</span>
+              +350 Casos exitosos
+            </span>
+            <span class="inline-flex items-center gap-2 font-label text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-semibold text-white bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2.5 shadow-lg shadow-black/10">
+              <span class="material-symbols-outlined text-secondary text-base">gavel</span>
+              8 Áreas de práctica
+            </span>
+          </div>
+
+          <h1 class="font-headline font-light text-white text-4xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight opacity-0 animate-slide-up" style="animation-delay: 400ms; animation-fill-mode: forwards;">
+            La experiencia que<br />
+            <span class="text-secondary font-medium">protege sus intereses</span>
           </h1>
+
+          <p class="font-body font-light text-white/60 text-base sm:text-lg lg:text-xl leading-relaxed max-w-2xl mt-6 lg:mt-8 opacity-0 animate-slide-up" style="animation-delay: 600ms; animation-fill-mode: forwards;">
+            Más de 15 años de trayectoria en derecho corporativo, responsabilidad civil,
+            seguros, litigio estratégico y asesoría integral para empresas y personas.
+            Un equipo multidisciplinario comprometido con la excelencia jurídica.
+          </p>
+
+          <div class="flex flex-wrap gap-4 mt-10 lg:mt-12 opacity-0 animate-slide-up" style="animation-delay: 800ms; animation-fill-mode: forwards;">
+            <router-link to="/contacto"
+              class="group inline-flex items-center gap-3 font-label text-[9px] sm:text-[10px] font-bold tracking-[0.25em] uppercase text-white bg-secondary border border-secondary px-8 py-4 hover:bg-secondary/90 transition-all duration-500 no-underline">
+              <span>Solicitar consulta</span>
+              <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </router-link>
+            <router-link to="/nosotros"
+              class="group inline-flex items-center gap-3 font-label text-[9px] sm:text-[10px] font-bold tracking-[0.25em] uppercase text-white/60 hover:text-white border border-white/20 px-8 py-4 hover:bg-white/5 transition-all duration-500 no-underline">
+              <span>Conocer la firma</span>
+              <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">east</span>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>

@@ -4,8 +4,8 @@ import { useReveal } from '../composables/useReveal'
 
 const stats = ref([
     { label: 'Casos atendidos', target: 350, suffix: '+', current: 0 },
-    { label: 'Años de experiencia', target: 15, suffix: '+', current: 0 },
-    { label: 'Profesionales especializados', target: 12, suffix: '+', current: 0 },
+    { label: 'Años de experiencia', target: 25, suffix: '+', current: 0 },
+    { label: 'Sectores de práctica', target: 8, suffix: '', current: 0 },
 ])
 
 const hasAnimated = ref(false)
