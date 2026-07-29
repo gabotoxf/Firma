@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-// Cambia estos 4 valores por las cifras reales de ER Abogados
+
 const stats = ref([
   { label: 'Casos atendidos', target: 350, suffix: '+', current: 0 },
   { label: 'Años de experiencia', target: 15, suffix: '+', current: 0 },
