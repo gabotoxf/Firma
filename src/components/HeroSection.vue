@@ -107,7 +107,7 @@ onMounted(() => {
 }
 
 .spotlight-secondary {
-  color: #aa8d79;
+  color: var(--color-secondary);
   -webkit-mask-image: radial-gradient(circle 80px at 50% 55%, black 0%, black 20%, transparent 50%);
   mask-image: radial-gradient(circle 80px at 50% 55%, black 0%, black 20%, transparent 50%);
   -webkit-mask-repeat: no-repeat;
