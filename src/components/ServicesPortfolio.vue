@@ -43,11 +43,11 @@ function onSwiper(swiper) {
 
 <template>
     <section ref="el" class="relative bg-primary py-24 lg:py-32 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/20 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/5 pointer-events-none"></div>
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-secondary/20 to-transparent"></div>
 
         <div class="relative z-10 px-6 sm:px-12 lg:px-24">
             <div class="max-w-[1920px] mx-auto">
-                <!-- Header -->
                 <div class="mb-14 lg:mb-16 max-w-3xl"
                     :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                     style="transition: all 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s;">
@@ -58,12 +58,11 @@ function onSwiper(swiper) {
                     <h2 class="font-headline text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-white leading-tight">
                         Servicios <span class="text-secondary">jurídicos</span>
                     </h2>
-                    <p class="text-white/50 font-light text-base sm:text-lg max-w-2xl mt-6 leading-relaxed">
+                    <p class="text-white/40 font-light text-base sm:text-lg max-w-2xl mt-6 leading-relaxed">
                         Soluciones legales sofisticadas para desafíos corporativos complejos, con un enfoque multidisciplinario y altamente especializado.
                     </p>
                 </div>
 
-                <!-- Slider -->
                 <div class="relative services-wrapper"
                     :class="isVisible ? 'opacity-100' : 'opacity-0'"
                     style="transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s;">
@@ -74,8 +73,8 @@ function onSwiper(swiper) {
                                 <img :src="service.heroImage" :alt="service.title"
                                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105">
 
-                                <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/60 to-primary/20"></div>
-                                <div class="absolute inset-0 group-hover:bg-black/10 transition-colors duration-500"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/50 to-primary/10"></div>
+                                <div class="absolute inset-0 group-hover:bg-black/5 transition-colors duration-500"></div>
 
                                 <div class="absolute top-0 left-0 w-0 h-[2px] bg-secondary group-hover:w-full transition-all duration-700"></div>
 
@@ -83,11 +82,11 @@ function onSwiper(swiper) {
                                     <h3 class="font-headline text-xl sm:text-2xl lg:text-3xl text-white font-bold leading-tight mb-3 max-w-lg group-hover:text-secondary transition-colors duration-500">
                                         {{ service.title }}
                                     </h3>
-                                    <p class="text-white/50 text-sm sm:text-base font-light leading-relaxed max-w-lg mb-6 line-clamp-2">
+                                    <p class="text-white/40 text-sm sm:text-base font-light leading-relaxed max-w-lg mb-6 line-clamp-2">
                                         {{ service.description }}
                                     </p>
                                     <router-link :to="`/servicios/${service.slug}`"
-                                        class="group/link inline-flex items-center gap-3 font-label text-[8px] sm:text-[9px] font-bold tracking-[0.25em] uppercase text-white/40 hover:text-secondary transition-colors no-underline">
+                                        class="group/link inline-flex items-center gap-3 font-label text-[8px] sm:text-[9px] font-bold tracking-[0.25em] uppercase text-white/30 hover:text-secondary transition-colors no-underline">
                                         <span>Explorar área</span>
                                         <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
                                     </router-link>
@@ -113,30 +112,26 @@ function onSwiper(swiper) {
 .services-slide {
     width: 420px;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    opacity: 0.4;
-    filter: grayscale(0.6);
+    opacity: 0.5;
 }
 
 .services-slide.swiper-slide-active {
     opacity: 1;
-    filter: grayscale(0);
-    transform: scale(1.12);
+    transform: scale(1.08);
 }
 
 .services-slide.swiper-slide-next,
 .services-slide.swiper-slide-prev {
-    opacity: 0.7;
-    filter: grayscale(0.3);
+    opacity: 0.75;
 }
 
 .services-card {
     height: 420px;
-    box-shadow: 0 0 0 0 rgba(197, 160, 89, 0);
     transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .swiper-slide-active .services-card {
-    box-shadow: 0 20px 60px rgba(197, 160, 89, 0.15);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width: 639px) {
@@ -144,7 +139,7 @@ function onSwiper(swiper) {
         width: 280px;
     }
     .services-slide.swiper-slide-active {
-        transform: scale(1.08);
+        transform: scale(1.05);
     }
     .services-card {
         height: 360px;

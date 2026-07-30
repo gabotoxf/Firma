@@ -8,6 +8,9 @@ export function useReveal(options = {}) {
     const {
         threshold = 0.15,
         once = true,
+        direction = 'up',
+        distance = 40,
+        rootMargin = '0px 0px -80px 0px',
     } = options
 
     onMounted(() => {
@@ -22,7 +25,7 @@ export function useReveal(options = {}) {
                     isVisible.value = false
                 }
             },
-            { threshold }
+            { threshold, rootMargin }
         )
         observer.observe(el.value)
     })

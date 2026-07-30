@@ -376,7 +376,7 @@ onUnmounted(() => {
           Nosotros
         </router-link>
         <router-link to="/equipo" @click="toggleMenu"
-          class="text-3xl sm:text-4xl lg:text-5xl font-light text-white/60 hover:text-white transition-colors no-underline border-l-2 border-[#7c5b46] pl-4 -ml-4"
+          class="text-3xl sm:text-4xl lg:text-5xl font-light text-white/60 hover:text-white transition-colors no-underline border-l-2 border-[#aa8d79] pl-4 -ml-4"
           active-class="!text-white !font-normal">
           Equipo Jurídico
         </router-link>

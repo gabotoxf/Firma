@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useReveal } from '../composables/useReveal'
 
 const stats = ref([
-    { label: 'Casos atendidos', target: 350, suffix: '+', current: 0 },
+    { label: 'Casos estratégicos', target: 350, suffix: '+', current: 0 },
     { label: 'Años de experiencia', target: 25, suffix: '+', current: 0 },
     { label: 'Sectores de práctica', target: 8, suffix: '', current: 0 },
 ])
@@ -52,7 +52,10 @@ onUnmounted(() => {
 
 <template>
     <section ref="el" class="relative bg-primary py-24 lg:py-32 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/20 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/10 pointer-events-none"></div>
+
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-secondary/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-secondary/20 to-transparent"></div>
 
         <div ref="counterEl" class="relative z-10 px-6 sm:px-12 lg:px-24">
             <div class="max-w-[1920px] mx-auto">
@@ -71,13 +74,16 @@ onUnmounted(() => {
 
                 <div class="grid md:grid-cols-3 gap-12 lg:gap-16">
                     <div v-for="(stat, i) in stats" :key="i"
-                        class="border-t border-white/10 pt-10"
+                        class="relative"
                         :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
                         :style="{ transition: `all 0.7s cubic-bezier(0.16,1,0.3,1) ${0.2 + i * 0.1}s` }">
-                        <span class="font-headline text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-secondary font-bold leading-none tabular-nums">
-                            {{ stat.current }}<span class="text-secondary">{{ stat.suffix }}</span>
-                        </span>
-                        <p class="font-label text-[8px] sm:text-[9px] tracking-[0.25em] uppercase text-white/50 mt-5">{{ stat.label }}</p>
+                        <div class="relative pt-10">
+                            <div class="absolute top-0 left-0 w-16 h-px bg-secondary/40"></div>
+                            <span class="font-headline text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-secondary font-bold leading-none tabular-nums">
+                                {{ stat.current }}<span class="text-secondary">{{ stat.suffix }}</span>
+                            </span>
+                            <p class="font-label text-[8px] sm:text-[9px] tracking-[0.25em] uppercase text-white/50 mt-5">{{ stat.label }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

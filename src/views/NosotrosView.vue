@@ -56,16 +56,16 @@
                         </h2>
                         <div class="space-y-6 text-dark/70 text-lg font-light leading-relaxed">
                             <p>
-                                La firma está liderada por el abogado Eduardo Ramos Kléber y como socios el abogado
-                                Eloy Pérez Paternina, consolidando el área de Derecho Laboral, Seguridad Social y
-                                Derecho Tributario, y la socia Liceth Carolina Villalba García, para liderar el área
-                                de Derecho Civil, Responsabilidad Civil y Seguros.
+                                Nuestra firma reúne a un equipo multidisciplinario de profesionales del derecho con
+                                amplia trayectoria en litigio estratégico, asesoría corporativa y defensa legal.
+                                Liderados por Eduardo Ramos Kléber, y con un cuerpo de socios especializados en
+                                áreas como derecho laboral, tributario, civil, responsabilidad civil y seguros,
+                                ofrecemos una cobertura jurídica integral.
                             </p>
                             <p>
-                                Hacen parte del equipo la abogada Ana Lucía Rivera Betín, quien se desempeña en el
-                                campo de Derecho Comercial y Societario, y Fernando Pinzón, quien cumple las funciones
-                                de dependiente judicial. En conjunto, ofrecemos una asesoría integral que responde a
-                                las necesidades más complejas de nuestros clientes.
+                                Cada miembro de nuestro equipo aporta una visión profunda y actualizada del derecho,
+                                permitiéndonos abordar los desafíos legales más complejos con una perspectiva
+                                multidisciplinaria que garantiza soluciones sólidas y eficaces.
                             </p>
                         </div>
                     </div>
@@ -107,75 +107,51 @@
             </div>
         </section>
 
-        <!-- Misión, Visión, Valores -->
+        <!-- Filosofía -->
         <section class="pb-24 lg:pb-32 px-6">
             <div class="container mx-auto max-w-[1400px] px-6 sm:px-12 lg:px-24">
                 <div class="text-center mb-16 lg:mb-20">
                     <p class="font-label text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-secondary font-bold mb-6 flex items-center justify-center gap-4">
                         <span class="inline-block w-10 h-px bg-secondary"></span>
-                        Nuestros Pilares
+                        Nuestra Filosofía
                         <span class="inline-block w-10 h-px bg-secondary"></span>
                     </p>
                     <h2 class="font-headline text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-primary leading-tight">
-                        Filosofía que nos <span class="text-secondary">define</span>
+                        Tres pilares que nos <span class="text-secondary">distinguen</span>
                     </h2>
                 </div>
                 <div class="grid md:grid-cols-3 gap-8 lg:gap-12">
-                    <!-- Misión -->
                     <div class="group relative bg-white border border-primary/10 p-10 lg:p-12 hover:border-secondary/30 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500">
                         <div class="absolute top-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-700"></div>
                         <div class="w-14 h-14 border border-secondary/30 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
-                            <span class="material-symbols-outlined text-secondary text-2xl group-hover:text-primary transition-colors">target</span>
+                            <span class="material-symbols-outlined text-secondary text-2xl group-hover:text-primary transition-colors">gavel</span>
                         </div>
-                        <h3 class="font-headline text-2xl text-primary mb-6">Misión</h3>
+                        <h3 class="font-headline text-2xl text-primary mb-4">Rigor Técnico</h3>
                         <p class="text-dark/60 font-light leading-relaxed">
-                            Nuestra misión es ofrecer asesoría y representación legal de alta calidad, 
-                            orientada a la protección de los derechos humanos y laborales, 
-                            mediante estrategias jurídicas efectivas, acompañamiento permanente 
-                            a nuestros clientes y una actuación basada en la ética, 
-                            la buena fe y el debido proceso.
+                            Cada caso se aborda con el más alto nivel de precisión jurídica. Nuestra experiencia en litigio estratégico y asesoría corporativa nos permite anticipar riesgos y construir soluciones sólidas.
                         </p>
                     </div>
 
-                    <!-- Visión -->
+                    <div class="group relative bg-white border border-primary/10 p-10 lg:p-12 hover:border-secondary/30 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500">
+                        <div class="absolute top-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-700"></div>
+                        <div class="w-14 h-14 border border-secondary/30 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
+                            <span class="material-symbols-outlined text-secondary text-2xl group-hover:text-primary transition-colors">handshake</span>
+                        </div>
+                        <h3 class="font-headline text-2xl text-primary mb-4">Compromiso Absoluto</h3>
+                        <p class="text-dark/60 font-light leading-relaxed">
+                            Más que representación legal, ofrecemos acompañamiento permanente. Nuestra relación con cada cliente se basa en la confianza, la discreción y la dedicación total a cada causa.
+                        </p>
+                    </div>
+
                     <div class="group relative bg-white border border-primary/10 p-10 lg:p-12 hover:border-secondary/30 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500">
                         <div class="absolute top-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-700"></div>
                         <div class="w-14 h-14 border border-secondary/30 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
                             <span class="material-symbols-outlined text-secondary text-2xl group-hover:text-primary transition-colors">visibility</span>
                         </div>
-                        <h3 class="font-headline text-2xl text-primary mb-6">Visión</h3>
+                        <h3 class="font-headline text-2xl text-primary mb-4">Visión Estratégica</h3>
                         <p class="text-dark/60 font-light leading-relaxed">
-                            Ser una firma de abogados reconocida a nivel nacional por su excelencia jurídica, 
-                            compromiso social y liderazgo en la defensa de los derechos de las personas, 
-                            especialmente en la lucha contra cualquier forma de violencia y discriminación.
+                            Miramos más allá del caso inmediato. Cada recomendación legal está diseñada para alinearse con los objetivos de negocio y la proyección a largo plazo de quienes confían en nosotros.
                         </p>
-                    </div>
-
-                    <!-- Valores -->
-                    <div class="group relative bg-white border border-primary/10 p-10 lg:p-12 hover:border-secondary/30 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500">
-                        <div class="absolute top-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-700"></div>
-                        <div class="w-14 h-14 border border-secondary/30 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
-                            <span class="material-symbols-outlined text-secondary text-2xl group-hover:text-primary transition-colors">balance</span>
-                        </div>
-                        <h3 class="font-headline text-2xl text-primary mb-6">Valores</h3>
-                        <ul class="space-y-5 text-dark/60 font-light">
-                            <li class="flex items-center gap-4 group/list">
-                                <span class="w-2 h-2 bg-secondary rounded-full group-hover/list:scale-150 transition-transform duration-300 shrink-0"></span>
-                                Integridad y Ética Profesional
-                            </li>
-                            <li class="flex items-center gap-4 group/list">
-                                <span class="w-2 h-2 bg-secondary rounded-full group-hover/list:scale-150 transition-transform duration-300 shrink-0"></span>
-                                Responsabilidad social
-                            </li>
-                            <li class="flex items-center gap-4 group/list">
-                                <span class="w-2 h-2 bg-secondary rounded-full group-hover/list:scale-150 transition-transform duration-300 shrink-0"></span>
-                                Innovación Continua
-                            </li>
-                            <li class="flex items-center gap-4 group/list">
-                                <span class="w-2 h-2 bg-secondary rounded-full group-hover/list:scale-150 transition-transform duration-300 shrink-0"></span>
-                                Empatía y Servicio al Cliente
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>

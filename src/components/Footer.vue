@@ -113,10 +113,10 @@ const currentYear = new Date().getFullYear();
 
 <style scoped>
 .font-headline {
-    font-family: 'Noto Serif', serif;
+    font-family: var(--font-headline);
 }
 
 .font-label {
-    font-family: 'Manrope', sans-serif;
+    font-family: var(--font-label);
 }
 </style>
