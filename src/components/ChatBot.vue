@@ -140,9 +140,9 @@ const handleQuickQuestion = (question) => {
       enter-active-class="transition-all duration-500 ease-out"
       enter-from-class="opacity-0 scale-0"
       enter-to-class="opacity-100 scale-100"
-      leave-active-class="transition-all duration-300 ease-in"
+      leave-active-class="transition-all duration-200 ease-in"
       leave-from-class="opacity-100 scale-100"
-      leave-to-class="opacity-0 scale-0"
+      leave-to-class="opacity-0 scale-50"
     >
       <button
         v-if="!isOpen"
@@ -156,16 +156,17 @@ const handleQuickQuestion = (question) => {
 
     <!-- Chat Window -->
     <Transition
-      enter-active-class="transition-all duration-400 ease-out"
-      enter-from-class="opacity-0 translate-y-6"
-      enter-to-class="opacity-100 translate-y-0"
+      enter-active-class="transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+      enter-from-class="opacity-0 scale-75 translate-y-8"
+      enter-to-class="opacity-100 scale-100 translate-y-0"
       leave-active-class="transition-all duration-300 ease-in"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 translate-y-6"
+      leave-from-class="opacity-100 scale-100 translate-y-0"
+      leave-to-class="opacity-0 scale-90 translate-y-4"
     >
       <div
         v-if="isOpen"
         class="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[560px] max-h-[calc(100vh-6rem)] bg-white flex flex-col overflow-hidden border border-primary/10 shadow-2xl shadow-primary/15"
+        style="transform-origin: bottom right;"
       >
         <!-- Header -->
         <div class="flex-shrink-0 bg-primary px-6 py-5 flex items-center justify-between border-b border-secondary/20">
