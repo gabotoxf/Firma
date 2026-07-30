@@ -54,7 +54,7 @@ const hoveredSlug = ref(null)
                         :class="hoveredSlug && hoveredSlug !== partner.slug ? 'opacity-40 blur-[2px] scale-[0.98]' : 'opacity-100 blur-0 scale-100'">
                         <div class="relative aspect-[16/10] overflow-hidden bg-primary/5 mb-6">
                             <img :src="partner.image" :alt="partner.nombre"
-                                class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 group-hover:opacity-90">
+                                class="w-full h-full object-cover object-[center_25%] transition-all duration-1000 group-hover:scale-105 group-hover:opacity-90">
                         </div>
                         <div class="flex flex-col gap-3 px-2 flex-1">
                             <div class="flex items-center justify-between">

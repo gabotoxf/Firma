@@ -35,15 +35,21 @@ onMounted(() => {
 
     <div class="absolute inset-0 flex items-center justify-center z-10 px-6 sm:px-12 lg:px-24 pt-[76px] lg:pt-[88px]">
       <div class="max-w-[1920px] mx-auto w-full text-center">
-        <h1 class="font-body font-light text-white text-4xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight"
+        <h1 class="font-body font-light text-4xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight"
             :style="{
               transition: 'all 1.4s cubic-bezier(0.16,1,0.3,1)',
               transitionDelay: '100ms',
               opacity: isLoaded ? 1 : 0,
               transform: isLoaded ? 'translateY(0)' : 'translateY(50px)'
             }">
-          La experiencia que<br />
-          <span class="text-secondary font-medium">protege sus intereses</span>
+          <span class="spotlight-wrapper spotlight-first">
+            <span class="spotlight-white">La experiencia que</span>
+            <span class="spotlight-secondary" aria-hidden="true">La experiencia que</span>
+          </span><br />
+          <span class="spotlight-wrapper spotlight-second">
+            <span class="spotlight-white font-medium">protege sus intereses</span>
+            <span class="spotlight-secondary font-medium" aria-hidden="true">protege sus intereses</span>
+          </span>
         </h1>
 
         <div class="flex justify-center mt-10 lg:mt-12"
@@ -85,5 +91,46 @@ onMounted(() => {
 
 .animate-scroll-line {
   animation: scroll-line 2s ease-in-out infinite;
+}
+
+.spotlight-wrapper {
+  display: inline-grid;
+}
+
+.spotlight-white,
+.spotlight-secondary {
+  grid-area: 1 / 1;
+}
+
+.spotlight-white {
+  color: white;
+}
+
+.spotlight-secondary {
+  color: #aa8d79;
+  -webkit-mask-image: radial-gradient(circle 80px at 50% 55%, black 0%, black 20%, transparent 50%);
+  mask-image: radial-gradient(circle 80px at 50% 55%, black 0%, black 20%, transparent 50%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 160px 160px;
+  mask-size: 160px 160px;
+  -webkit-mask-position: -160px center;
+  mask-position: -160px center;
+}
+
+.spotlight-first .spotlight-secondary {
+  animation: spotSweep 16s linear infinite;
+  animation-delay: 0s;
+}
+
+.spotlight-second .spotlight-secondary {
+  animation: spotSweep 16s linear infinite;
+  animation-delay: 8s;
+}
+
+@keyframes spotSweep {
+  0% { -webkit-mask-position: -160px center; mask-position: -160px center; }
+  35% { -webkit-mask-position: 900px center; mask-position: 900px center; }
+  100% { -webkit-mask-position: 900px center; mask-position: 900px center; }
 }
 </style>

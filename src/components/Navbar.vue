@@ -183,7 +183,7 @@ onUnmounted(() => {
                       @click="activeMegaMenu = null">
                       <div class="w-34 h-45 overflow-hidden shadow-md">
                         <img :src="partner.image" :alt="partner.nombre"
-                          class="w-full h-full object-cover group-hover/partner:scale-110 transition-transform duration-700">
+                          class="w-full h-full object-cover object-[center_25%] group-hover/partner:scale-110 transition-transform duration-700">
                       </div>
                       <div class="flex-1 py-1">
                         <p style="font-size: 14px;"

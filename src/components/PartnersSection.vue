@@ -38,7 +38,7 @@ onMounted(() => {
 
                     <div class="relative overflow-hidden h-[380px] lg:h-[420px]">
                         <img :src="partner.image" :alt="partner.nombre"
-                            class="w-full h-full object-cover transition-all duration-[1s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105">
+                            class="w-full h-full object-cover object-[center_25%] transition-all duration-[1s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                         <div class="absolute inset-0 flex flex-col justify-end p-8 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
