@@ -128,18 +128,8 @@
                         </div>
                         <h3 class="font-headline text-2xl text-primary mb-4">Rigor Técnico</h3>
                         <p class="text-dark/60 font-light leading-relaxed">
-                            Cada caso se aborda con el más alto nivel de precisión jurídica. Nuestra experiencia en litigio estratégico y asesoría corporativa nos permite anticipar riesgos y construir soluciones sólidas.
-                        </p>
-                    </div>
-
-                    <div class="group relative bg-white border border-primary/10 p-10 lg:p-12 hover:border-secondary/30 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500">
-                        <div class="absolute top-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-700"></div>
-                        <div class="w-14 h-14 border border-secondary/30 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
-                            <span class="material-symbols-outlined text-secondary text-2xl group-hover:text-primary transition-colors">handshake</span>
-                        </div>
-                        <h3 class="font-headline text-2xl text-primary mb-4">Compromiso Absoluto</h3>
-                        <p class="text-dark/60 font-light leading-relaxed">
-                            Más que representación legal, ofrecemos acompañamiento permanente. Nuestra relación con cada cliente se basa en la confianza, la discreción y la dedicación total a cada causa.
+                            Nuestra misión es proteger lo que más valoras, convirtiédonos en un aliado estratégico 
+                            que te acompaña en cada decisón importante
                         </p>
                     </div>
 

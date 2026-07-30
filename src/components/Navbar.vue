@@ -83,12 +83,11 @@ onUnmounted(() => {
     <div class="px-3 md:px-6 lg:px-12 flex items-center justify-between max-w-[1920px] mx-auto">
 
       <!-- Brand / Logo -->
-      <router-link to="/" class="flex items-center no-underline relative z-[60]">
-        <div class="w-[110px] sm:w-[140px] md:w-[180px] h-[40px] sm:h-[44px] md:h-[56px] overflow-hidden relative bg-primary rounded-sm px-4 flex items-center justify-center">
-          <img src="/img/logos/logoprin.png" alt="ER Abogados" class="transition-transform duration-500"
-            style="position: absolute; width: 100%; height: auto; top: 50%; transform: translateY(-50%);" />
-        </div>
-      </router-link>
+        <router-link to="/" class="flex items-center no-underline relative z-[60]">
+          <div class="w-[110px] sm:w-[140px] md:w-[180px] h-[40px] sm:h-[44px] md:h-[56px] overflow-hidden relative bg-primary rounded-sm px-4 flex items-center justify-center">
+            <img src="/img/logos/logoprin.png" alt="ER Abogados" class="max-w-full max-h-full w-auto h-auto" />
+          </div>
+        </router-link>
 
       <!-- Desktop Links -->
       <div class="hidden xl:flex items-center gap-6 xl:gap-10">

@@ -7,10 +7,10 @@ const { el, isVisible } = useReveal({ threshold: 0.15 })
 <template>
     <section ref="el" class="relative bg-primary overflow-hidden">
         <div class="lg:grid lg:grid-cols-12">
-            <div class="lg:col-span-6 relative min-h-[50vh] lg:min-h-[750px] overflow-hidden">
+            <div class="lg:col-span-6 relative min-h-[50vh] lg:min-h-[600px] overflow-hidden">
                 <div class="absolute inset-0 lg:mr-16">
-                    <img src="/img/nosotros/noso.jpg" alt="ER Abogados"
-                        class="w-full h-full object-cover"
+                   <img src="/img/nosotros/noso.jpg" alt="ER Abogados"
+    class="w-full h-full object-cover object-center"
                         :class="isVisible ? 'scale-100 opacity-100' : 'scale-110 opacity-0'"
                         style="transition: all 1.2s cubic-bezier(0.16,1,0.3,1)">
                 </div>
