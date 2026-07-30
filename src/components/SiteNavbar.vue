@@ -66,26 +66,36 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
             <img
               src="/img/logos/logoprin.png"
               alt="ER Abogados"
-              class="w-full h-auto object-contain transition-all duration-500"
+              class="max-w-full max-h-full w-auto h-auto transition-all duration-500"
               :class="isScrolled ? '' : 'brightness-0 invert'"
             />
           </div>
         </router-link>
 
         <nav class="hidden lg:flex items-center gap-5">
-          <router-link to="/servicios/seguros-y-reaseguros"
+          <router-link to="/servicios"
             class="transition-colors duration-300 font-label text-[10px] tracking-[0.2em] uppercase no-underline"
-            :class="isScrolled ? 'text-primary/60 hover:text-primary' : 'text-white/70 hover:text-white'">Seguros</router-link>
+            :class="isScrolled ? 'text-primary/60 hover:text-primary' : 'text-white/70 hover:text-white'">Penal</router-link>
+          <span class="w-px h-3 transition-colors duration-300"
+            :class="isScrolled ? 'bg-primary/10' : 'bg-white/20'"></span>
+          <router-link to="/servicios/derecho-laboral"
+            class="transition-colors duration-300 font-label text-[10px] tracking-[0.2em] uppercase no-underline"
+            :class="isScrolled ? 'text-primary/60 hover:text-primary' : 'text-white/70 hover:text-white'">Laboral</router-link>
           <span class="w-px h-3 transition-colors duration-300"
             :class="isScrolled ? 'bg-primary/10' : 'bg-white/20'"></span>
           <router-link to="/servicios/responsabilidad-civil"
             class="transition-colors duration-300 font-label text-[10px] tracking-[0.2em] uppercase no-underline"
-            :class="isScrolled ? 'text-primary/60 hover:text-primary' : 'text-white/70 hover:text-white'">Daños</router-link>
+            :class="isScrolled ? 'text-primary/60 hover:text-primary' : 'text-white/70 hover:text-white'">Civil</router-link>
           <span class="w-px h-3 transition-colors duration-300"
             :class="isScrolled ? 'bg-primary/10' : 'bg-white/20'"></span>
-          <router-link to="/servicios/derecho-contractual"
+          <router-link to="/servicios/derecho-tributario"
             class="transition-colors duration-300 font-label text-[10px] tracking-[0.2em] uppercase no-underline"
-            :class="isScrolled ? 'text-primary/60 hover:text-primary' : 'text-white/70 hover:text-white'">Contractual</router-link>
+            :class="isScrolled ? 'text-primary/60 hover:text-primary' : 'text-white/70 hover:text-white'">Tributario</router-link>
+          <span class="w-px h-3 transition-colors duration-300"
+            :class="isScrolled ? 'bg-primary/10' : 'bg-white/20'"></span>
+          <router-link to="/servicios"
+            class="transition-colors duration-300 font-label text-[10px] tracking-[0.2em] uppercase no-underline"
+            :class="isScrolled ? 'text-primary/60 hover:text-primary' : 'text-white/70 hover:text-white'">Administrativo</router-link>
         </nav>
 
         <div class="flex items-center gap-3">

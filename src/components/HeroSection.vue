@@ -54,7 +54,7 @@ onMounted(() => {
               transform: isLoaded ? 'translateY(0)' : 'translateY(40px)'
             }">
           <router-link to="/contacto"
-            class="group inline-flex items-center gap-4 font-label text-[9px] sm:text-[10px] font-bold tracking-[0.25em] uppercase text-secondary border-2 border-secondary/80 px-10 py-4 hover:bg-secondary hover:text-white transition-all duration-500 no-underline">
+            class="group inline-flex items-center gap-4 font-label text-[9px] sm:text-[10px] font-bold tracking-[0.25em] uppercase text-white bg-secondary/90 border-2 border-secondary px-10 py-4 hover:bg-secondary hover:shadow-lg hover:shadow-secondary/30 transition-all duration-500 no-underline">
             <span>Solicitar consulta</span>
             <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
           </router-link>

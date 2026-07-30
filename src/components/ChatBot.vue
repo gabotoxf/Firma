@@ -147,10 +147,11 @@ const handleQuickQuestion = (question) => {
       <button
         v-if="!isOpen"
         @click="toggleChat"
-        class="fab-button fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 bg-primary border border-secondary/40 shadow-xl shadow-primary/20"
+        class="fab-button fixed bottom-6 right-6 z-50 flex items-center gap-2 pl-5 pr-6 h-14 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 bg-primary border border-secondary/40 shadow-xl shadow-primary/20 rounded-full"
         aria-label="Abrir chat"
       >
         <span class="material-symbols-outlined text-secondary text-2xl">gavel</span>
+        <span class="font-label text-[10px] tracking-[0.15em] uppercase text-white font-semibold">JurisBot</span>
       </button>
     </Transition>
 

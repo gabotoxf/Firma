@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Autoplay } from 'swiper/modules'
+import { Autoplay, Navigation } from 'swiper/modules'
 import 'swiper/css'
 
 import services from '../data/services.js'
@@ -11,14 +11,19 @@ const { el, isVisible } = useReveal({ threshold: 0.1 })
 const swiperRef = ref(null)
 
 const swiperParams = {
-    modules: [Autoplay],
+    modules: [Autoplay, Navigation],
+    navigation: {
+        nextEl: '.services-next',
+        prevEl: '.services-prev',
+    },
     centeredSlides: true,
     slidesPerView: 1.15,
     spaceBetween: 20,
     grabCursor: true,
+    loop: true,
     autoplay: {
-        delay: 4000,
-        disableOnInteraction: true,
+        delay: 3000,
+        disableOnInteraction: false,
     },
     breakpoints: {
         640: {
@@ -93,6 +98,15 @@ function onSwiper(swiper) {
                                 </div>
                             </div>
                         </SwiperSlide>
+
+                        <template #container-end>
+                            <button class="services-prev absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-secondary hover:border-secondary transition-all duration-300 cursor-pointer">
+                                <span class="material-symbols-outlined text-xl">chevron_left</span>
+                            </button>
+                            <button class="services-next absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-secondary hover:border-secondary transition-all duration-300 cursor-pointer">
+                                <span class="material-symbols-outlined text-xl">chevron_right</span>
+                            </button>
+                        </template>
                     </Swiper>
                 </div>
             </div>
@@ -102,11 +116,13 @@ function onSwiper(swiper) {
 
 <style scoped>
 .services-wrapper {
-    overflow: hidden;
+    overflow: visible;
 }
 
 .services-swiper {
     padding: 1.5rem 0;
+    overflow: visible;
+    position: relative;
 }
 
 .services-slide {
@@ -132,6 +148,18 @@ function onSwiper(swiper) {
 
 .swiper-slide-active .services-card {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.services-prev,
+.services-next {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.services-wrapper:hover .services-prev,
+.services-wrapper:hover .services-next {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 @media (max-width: 639px) {
