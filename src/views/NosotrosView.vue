@@ -129,11 +129,8 @@
                         </div>
                         <h3 class="font-headline text-2xl text-primary mb-6">Misión</h3>
                         <p class="text-dark/60 font-light leading-relaxed">
-                            Nuestra misión es ofrecer asesoría y representación legal de alta calidad, 
-                            orientada a la protección de los derechos humanos y laborales, 
-                            mediante estrategias jurídicas efectivas, acompañamiento permanente 
-                            a nuestros clientes y una actuación basada en la ética, 
-                            la buena fe y el debido proceso.
+                            Nuestra misión es proteger lo que más valoras, convirtiédonos en un aliado estratégico 
+                            que te acompaña en cada decisón importante
                         </p>
                     </div>
 
