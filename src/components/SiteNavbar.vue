@@ -10,6 +10,7 @@ const props = defineProps({
 
 const isScrolled = ref(props.startScrolled)
 const isMenuOpen = ref(false)
+const navbarLoaded = ref(false)
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 80
@@ -29,7 +30,10 @@ const handleMenuMouseMove = (e) => {
   mouseY.value = ((e.clientY - rect.top) / rect.height) * 100
 }
 
-onMounted(() => window.addEventListener('scroll', handleScroll))
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+  setTimeout(() => { navbarLoaded.value = true }, 100)
+})
 onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 </script>
 
@@ -38,6 +42,12 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   <nav
     class="fixed top-0 left-0 w-full z-50 transition-all duration-500"
     :class="isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent'"
+    :style="{
+      transition: 'all 0.6s cubic-bezier(0.16,1,0.3,1)',
+      transitionDelay: '200ms',
+      opacity: navbarLoaded ? 1 : 0,
+      transform: navbarLoaded ? 'translateY(0)' : 'translateY(-20px)'
+    }"
   >
     <div
       class="px-6 sm:px-12 lg:px-24 transition-all duration-500"
@@ -146,7 +156,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
               <span class="relative text-2xl sm:text-3xl lg:text-4xl font-light text-white/55 group-hover:text-white group-hover:translate-x-3 transition-all duration-300">
                 {{ item.label }}
               </span>
-              <span class="material-symbols-outlined ml-auto relative text-white/0 group-hover:text-[#7c5b46] -translate-x-3 group-hover:translate-x-0 transition-all duration-300 text-2xl hidden sm:inline">
+              <span class="material-symbols-outlined ml-auto relative text-white/0 group-hover:text-[#aa8d79] -translate-x-3 group-hover:translate-x-0 transition-all duration-300 text-2xl hidden sm:inline">
                 arrow_outward
               </span>
             </router-link>
@@ -182,7 +192,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
           <div class="blob blob-1"></div>
           <div class="blob blob-2"></div>
           <div class="relative z-10 menu-panel-content">
-            <p class="text-[10px] tracking-[0.25em] uppercase text-[#7c5b46] mb-3">Consulta inicial</p>
+            <p class="text-[10px] tracking-[0.25em] uppercase text-[#aa8d79] mb-3">Consulta inicial</p>
             <p class="text-xl text-white/80 font-light leading-relaxed mb-6">
               ¿Necesitas asesoría legal? Estamos para acompañarte.
             </p>
@@ -247,7 +257,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 }
 .blob-1 {
   width: 280px; height: 280px;
-  background: #7c5b46;
+  background: #aa8d79;
   top: -60px; right: -60px;
   animation: blobFloat1 9s ease-in-out infinite;
 }

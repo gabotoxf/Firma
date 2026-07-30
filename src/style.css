@@ -9,9 +9,9 @@
   --color-primary-fixed-dim: #9eb0b2;
   --color-on-primary-fixed: #0f1c1d;
   --color-on-primary-fixed-variant: #1e3032;
-  --color-inverse-primary: #7c5b46;
+  --color-inverse-primary: #aa8d79;
 
-  --color-secondary: #7c5b46;
+  --color-secondary: #aa8d79;
   --color-on-secondary: #ffffff;
   --color-secondary-container: #f0e0d4;
   --color-on-secondary-container: #1e3032;
@@ -63,9 +63,9 @@
   --radius-xl: 0px;
   --radius-full: 9999px;
 
---font-headline: "Noto Serif", serif;
---font-body: "Manrope", sans-serif;
---font-label: "Manrope", sans-serif;
+--font-headline: "DM Serif Display", serif;
+--font-body: "Work Sans", sans-serif;
+--font-label: "Work Sans", sans-serif;
 }
 
 html {
@@ -104,11 +104,11 @@ body {
   background: rgba(30, 48, 50, 0.05);
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(124, 91, 70, 0.3);
+  background: rgba(170, 141, 121, 0.3);
   border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(124, 91, 70, 0.5);
+  background: rgba(170, 141, 121, 0.5);
 }
 
 .material-symbols-outlined {
@@ -159,6 +159,72 @@ body {
 
 .animate-fade-in {
   animation: fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ============================================
+   REVEAL ANIMATIONS
+   ============================================ */
+@keyframes clipReveal {
+    from { clip-path: inset(0 0 100% 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes clipRevealLeft {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes blurIn {
+    from { filter: blur(8px); opacity: 0; }
+    to { filter: blur(0); opacity: 1; }
+}
+
+@keyframes fadeSlideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeSlideDown {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeSlideLeft {
+    from { transform: translateX(30px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeSlideRight {
+    from { transform: translateX(-30px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(170, 141, 121, 0); }
+    50% { box-shadow: 0 0 30px rgba(170, 141, 121, 0.15); }
+}
+
+@keyframes expandWidth {
+    from { width: 0; }
+    to { width: var(--target-width, 100%); }
+}
+
+/* Utility classes for reveal */
+.animate-clip-reveal {
+    animation: clipReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-blur-in {
+    animation: blurIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Desactiva la animación default de sonner */

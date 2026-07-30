@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 
 const props = defineProps({
   videoSrc: {
@@ -17,66 +17,73 @@ const videoType = computed(() => {
   const map = { mp4: 'video/mp4', webm: 'video/webm', mov: 'video/quicktime', avi: 'video/x-msvideo' }
   return map[ext] || 'video/mp4'
 })
+
+const isLoaded = ref(false)
+
+onMounted(() => {
+  setTimeout(() => { isLoaded.value = true }, 600)
+})
 </script>
 
 <template>
-
   <section class="relative w-full h-[600px] md:h-[650px] lg:h-screen overflow-hidden bg-primary">
     <video autoplay muted loop playsinline :poster="posterSrc" class="absolute inset-0 w-full h-full object-cover">
       <source :src="videoSrc" :type="videoType" />
     </video>
 
-    <div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/40 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/30 to-transparent"></div>
 
-    <div class="absolute inset-0 flex items-center z-10 px-6 sm:px-12 lg:px-24 pt-[76px] lg:pt-[88px]">
-      <div class="max-w-[1920px] mx-auto w-full">
-        <div class="max-w-full md:max-w-[75%] lg:max-w-[65%]">
-          <!-- Trust badges -->
-          <div class="flex flex-wrap gap-3 mb-8 opacity-0 animate-fade-in" style="animation-delay: 200ms; animation-fill-mode: forwards;">
-            <span class="inline-flex items-center gap-2 font-label text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-semibold text-white bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2.5 shadow-lg shadow-black/10">
-              <span class="material-symbols-outlined text-secondary text-base">calendar_month</span>
-              +25 Años de experiencia
-            </span>
-            <span class="inline-flex items-center gap-2 font-label text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-semibold text-white bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2.5 shadow-lg shadow-black/10">
-              <span class="material-symbols-outlined text-secondary text-base">verified</span>
-              +350 Casos exitosos
-            </span>
-            <span class="inline-flex items-center gap-2 font-label text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-semibold text-white bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2.5 shadow-lg shadow-black/10">
-              <span class="material-symbols-outlined text-secondary text-base">gavel</span>
-              8 Áreas de práctica
-            </span>
-          </div>
+    <div class="absolute inset-0 flex items-center justify-center z-10 px-6 sm:px-12 lg:px-24 pt-[76px] lg:pt-[88px]">
+      <div class="max-w-[1920px] mx-auto w-full text-center">
+        <h1 class="font-body font-light text-white text-4xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight"
+            :style="{
+              transition: 'all 1.4s cubic-bezier(0.16,1,0.3,1)',
+              transitionDelay: '100ms',
+              opacity: isLoaded ? 1 : 0,
+              transform: isLoaded ? 'translateY(0)' : 'translateY(50px)'
+            }">
+          La experiencia que<br />
+          <span class="text-secondary font-medium">protege sus intereses</span>
+        </h1>
 
-          <h1 class="font-headline font-light text-white text-4xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight opacity-0 animate-slide-up" style="animation-delay: 400ms; animation-fill-mode: forwards;">
-            La experiencia que<br />
-            <span class="text-secondary font-medium">protege sus intereses</span>
-          </h1>
-
-          <p class="font-body font-light text-white/60 text-base sm:text-lg lg:text-xl leading-relaxed max-w-2xl mt-6 lg:mt-8 opacity-0 animate-slide-up" style="animation-delay: 600ms; animation-fill-mode: forwards;">
-            Más de 15 años de trayectoria en derecho corporativo, responsabilidad civil,
-            seguros, litigio estratégico y asesoría integral para empresas y personas.
-            Un equipo multidisciplinario comprometido con la excelencia jurídica.
-          </p>
-
-          <div class="flex flex-wrap gap-4 mt-10 lg:mt-12 opacity-0 animate-slide-up" style="animation-delay: 800ms; animation-fill-mode: forwards;">
-            <router-link to="/contacto"
-              class="group inline-flex items-center gap-3 font-label text-[9px] sm:text-[10px] font-bold tracking-[0.25em] uppercase text-white bg-secondary border border-secondary px-8 py-4 hover:bg-secondary/90 transition-all duration-500 no-underline">
-              <span>Solicitar consulta</span>
-              <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
-            </router-link>
-            <router-link to="/nosotros"
-              class="group inline-flex items-center gap-3 font-label text-[9px] sm:text-[10px] font-bold tracking-[0.25em] uppercase text-white/60 hover:text-white border border-white/20 px-8 py-4 hover:bg-white/5 transition-all duration-500 no-underline">
-              <span>Conocer la firma</span>
-              <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">east</span>
-            </router-link>
-          </div>
+        <div class="flex justify-center mt-10 lg:mt-12"
+            :style="{
+              transition: 'all 1.2s cubic-bezier(0.16,1,0.3,1)',
+              transitionDelay: '800ms',
+              opacity: isLoaded ? 1 : 0,
+              transform: isLoaded ? 'translateY(0)' : 'translateY(40px)'
+            }">
+          <router-link to="/contacto"
+            class="group inline-flex items-center gap-4 font-label text-[9px] sm:text-[10px] font-bold tracking-[0.25em] uppercase text-secondary border-2 border-secondary/80 px-10 py-4 hover:bg-secondary hover:text-white transition-all duration-500 no-underline">
+            <span>Solicitar consulta</span>
+            <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </router-link>
         </div>
       </div>
     </div>
 
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
-      <div class="w-px h-8 bg-white/20 animate-pulse"></div>
-      <span class="material-symbols-outlined text-white/40 text-2xl animate-bounce">expand_more</span>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
+        :style="{
+          transition: 'all 0.8s cubic-bezier(0.16,1,0.3,1)',
+          transitionDelay: '1.2s',
+          opacity: isLoaded ? 1 : 0,
+          transform: isLoaded ? 'translateY(0)' : 'translateY(16px)'
+        }">
+      <div class="w-px h-10 bg-gradient-to-b from-secondary to-transparent animate-scroll-line"></div>
+      <span class="material-symbols-outlined text-secondary/60 text-lg animate-bounce">expand_more</span>
     </div>
   </section>
 </template>
+
+<style scoped>
+@keyframes scroll-line {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+.animate-scroll-line {
+  animation: scroll-line 2s ease-in-out infinite;
+}
+</style>

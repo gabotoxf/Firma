@@ -71,7 +71,6 @@ onMounted(() => {
 
                 <h1
                   class="font-headline text-white text-3xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6 line-clamp-3"
-                  style="font-family: 'Noto Serif', serif;"
                 >
                   {{ truncate(publicacion.title, 80) }}
                 </h1>
@@ -84,7 +83,7 @@ onMounted(() => {
                   :to="`/publicaciones/${publicacion.slug}`"
                   class="group inline-flex items-center gap-4 text-secondary hover:text-white transition-colors duration-300 no-underline"
                 >
-                  <span class="font-label text-[10px] font-bold tracking-[0.2em] uppercase" style="font-family: 'Manrope', sans-serif;">
+                  <span class="font-label text-[10px] font-bold tracking-[0.2em] uppercase">
                     Explorar publicación
                   </span>
                   <span
@@ -103,7 +102,7 @@ onMounted(() => {
     <!-- Fallback si no hay publicaciones -->
     <div v-else class="absolute inset-0 flex items-center justify-center bg-primary">
       <div class="text-center text-white px-6">
-        <h1 class="font-headline text-4xl md:text-6xl font-bold mb-4" style="font-family: 'Noto Serif', serif;">
+        <h1 class="font-headline text-4xl md:text-6xl font-bold mb-4">
           Bienvenidos a nuestra firma
         </h1>
         <p class="text-white/60 text-lg font-light max-w-xl mx-auto">
@@ -141,7 +140,7 @@ onMounted(() => {
 :deep(.swiper-pagination-bullet) {
   width: 10px;
   height: 10px;
-  background: #7c5b46;
+  background: #aa8d79;
   opacity: 0.3;
   transition: opacity 0.3s;
 }
