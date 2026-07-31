@@ -1,4 +1,29 @@
 <script setup>
+import { ref, onMounted } from 'vue'
+
+const videoEl = ref(null)
+
+onMounted(() => {
+  const v = videoEl.value
+  if (v) {
+    const attemptPlay = () => {
+      const p = v.play()
+      if (p !== undefined) {
+        p.catch(() => {
+          const playOnce = () => {
+            v.play()
+            document.removeEventListener('click', playOnce)
+            document.removeEventListener('touchstart', playOnce)
+          }
+          document.addEventListener('click', playOnce)
+          document.addEventListener('touchstart', playOnce)
+        })
+      }
+    }
+    attemptPlay()
+    v.addEventListener('pause', () => attemptPlay())
+  }
+})
 </script>
 
 <template>
@@ -6,7 +31,7 @@
         <!-- Hero Section - Full screen con video -->
         <section class="relative min-h-[90vh] md:min-h-screen overflow-hidden bg-primary">
             <div class="absolute inset-0">
-                <video autoplay muted loop playsinline poster="/img/nosotros/hero.avif" class="absolute inset-0 w-full h-full object-cover">
+                <video ref="videoEl" autoplay muted loop playsinline preload="auto" poster="/img/nosotros/hero.avif" class="absolute inset-0 w-full h-full object-cover">
                     <source src="/img/hero-background.mp4" type="video/mp4" />
                 </video>
                 <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent"></div>
@@ -150,4 +175,12 @@
 </template>
 
 <style scoped>
+video::-webkit-media-controls,
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-panel {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 </style>

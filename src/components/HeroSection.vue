@@ -19,15 +19,36 @@ const videoType = computed(() => {
 })
 
 const isLoaded = ref(false)
+const videoEl = ref(null)
 
 onMounted(() => {
   setTimeout(() => { isLoaded.value = true }, 600)
+
+  const v = videoEl.value
+  if (v) {
+    const attemptPlay = () => {
+      const p = v.play()
+      if (p !== undefined) {
+        p.catch(() => {
+          const playOnce = () => {
+            v.play()
+            document.removeEventListener('click', playOnce)
+            document.removeEventListener('touchstart', playOnce)
+          }
+          document.addEventListener('click', playOnce)
+          document.addEventListener('touchstart', playOnce)
+        })
+      }
+    }
+    attemptPlay()
+    v.addEventListener('pause', () => attemptPlay())
+  }
 })
 </script>
 
 <template>
   <section class="relative w-full h-[600px] md:h-[650px] lg:h-screen overflow-hidden bg-primary">
-    <video autoplay muted loop playsinline :poster="posterSrc" class="absolute inset-0 w-full h-full object-cover">
+    <video ref="videoEl" autoplay muted loop playsinline preload="auto" :poster="posterSrc" class="absolute inset-0 w-full h-full object-cover">
       <source :src="videoSrc" :type="videoType" />
     </video>
 
@@ -82,6 +103,15 @@ onMounted(() => {
 </template>
 
 <style scoped>
+video::-webkit-media-controls,
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-panel {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 @keyframes scroll-line {
   0% { transform: scaleY(0); transform-origin: top; }
   50% { transform: scaleY(1); transform-origin: top; }
